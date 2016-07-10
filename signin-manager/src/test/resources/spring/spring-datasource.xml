@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx-4.0.xsd"
+       default-lazy-init="true">
+
+    <!--数据源 -->
+    <!--<bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="dataSourceLogEnabled" value="true" />
+        <property name="resultSetLogEnabled" value="true" />
+        <property name="connectionLogEnabled" value="true"/>
+        <property name="connectionLogErrorEnabled" value="true"/>
+    </bean>-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbcDriverClassName}"/>
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="password" value="${jdbcPassword}"/>
+        <property name="user" value="${jdbcUsername}"/>
+        <property name="initialPoolSize" value="${jdbcInitialSize}" />
+        <property name="maxIdleTime" value="${jdbcMaxWait}" />
+        <property name="maxPoolSize" value="${jdbcMaxIdle}" />
+        <property name="minPoolSize" value="${jdbcMinIdle}" />
+        <property name="acquireIncrement" value="${acquire_increment}" />
+        <property name="checkoutTimeout" value="${checkout_timeout}" />
+
+    </bean>
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:spring/mybatis.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 自动扫描和注册Mapper接口 basePackage是用来指定Mapper接口文件所在的基包， 在这个基包或其所有子包下面的Mapper接口都将被搜索到。
+        多个基包之间可以使用逗号或者分号进行分隔 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bestpay.bpbp.signin.dal.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 声明使用注解式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

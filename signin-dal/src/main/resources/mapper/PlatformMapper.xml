@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bestpay.bpbp.signin.dal.mapper.PlatformMapper">
+    <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Platform">
+        <id column="pk_platform" property="platformId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="fk_group" property="group" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      PK_PLATFORM, NAME, FK_GROUP
+    </sql>
+
+
+    <!-- 按条件查询平台记录(不分页) -->
+    <select id="selectAllPlatformByName" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_PLATFORM t WHERE 1=1
+        <if test="name != null and name != ''">
+            AND t.NAME = #{name,jdbcType=VARCHAR}
+        </if>
+        AND t.IS_DELETE != 2
+        ORDER BY t.pk_platform
+    </select>
+
+    <!-- 按条件查询平台记录（分页） -->
+    <select id="selectPlatformPageListByName" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_PLATFORM t WHERE 1=1
+        <if test="name != null and name != ''">
+            AND t.NAME LIKE #{name,jdbcType=VARCHAR}
+        </if>
+        AND t.IS_DELETE != 2
+        ORDER BY t.pk_platform LIMIT #{pageNo},#{rowNum}
+    </select>
+
+    <!-- 查询数据总条数 -->
+    <select id="selectPlatformAllCount" resultType="java.lang.Integer" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+        SELECT
+        COUNT(1)
+        FROM T_PLATFORM t WHERE  1=1
+        <if test="name != null and name != ''">
+            AND t.NAME LIKE #{name,jdbcType=VARCHAR}
+        </if>
+        AND t.IS_DELETE != 2
+    </select>
+
+    <!--查询所有平台名（下拉列表使用）-->
+    <select id="selectAllPlatformName" resultType="java.lang.String">
+        SELECT
+        t.NAME
+        FROM T_PLATFORM t
+    </select>
+
+    <!--根据主键查询平台记录-->
+    <select id="selectPlatformById" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+        SELECT * FROM T_PLATFORM t WHERE 1=1
+        <if test="platformId != '' and platformId != null">
+          AND t.PK_PLATFORM = #{platformId}
+        </if>
+        AND t.IS_DELETE != 2
+    </select>
+
+    <!--新增平台表记录-->
+    <insert id="insertPlatform" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+         INSERT INTO T_PLATFORM (NAME, FK_GROUP)
+         VALUES (#{name,jdbcType=VARCHAR}, #{group,jdbcType=INTEGER})
+    </insert>
+
+    <!--根据主键更新平台表-->
+    <update id="updatePlatform" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+          UPDATE T_PLATFORM t
+          <set>
+              <trim suffixOverrides=",">
+                  <if test="name != null and name != ''">
+                      t.NAME = #{name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="group != null and group != '' and group != 0">
+                      t.FK_GROUP = #{group,jdbcType=INTEGER},
+                  </if>
+              </trim>
+          </set>
+          WHERE pk_platform = #{platformId,jdbcType=INTEGER}
+    </update>
+
+    <!--软删除中心表记录-->
+    <update id="deletePlatform" parameterType="com.bestpay.bpbp.signin.dal.models.Platform">
+        UPDATE T_PLATFORM t
+        <set>
+            t.IS_DELETE = 2
+        </set>
+        WHERE t.PK_PLATFORM=#{platformId,jdbcType=INTEGER}
+    </update>
+</mapper>

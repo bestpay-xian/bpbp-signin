@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bestpay.bpbp.signin.dal.mapper.RecordMapper">
+    <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Record">
+        <id column="pk_record" property="recordId" jdbcType="INTEGER"/>
+        <id column="fk_employee" property="employeeId" jdbcType="INTEGER"/>
+        <id column="start_time" property="startTime"/>
+        <id column="end_time" property="endTime"/>
+        <id column="hours_work" property="hoursWork" jdbcType="INTEGER"/>
+        <id column="name" property="employeeName" jdbcType="VARCHAR"/>
+
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        pk_record,fk_employee,start_time,end_time,hours_work
+    </sql>
+
+    <!-- 查询所有打卡记录列表-->
+    <select id="selectRecordCount" resultType="java.lang.Long" parameterType="com.bestpay.bpbp.signin.dal.models.Record">
+        select
+        count(1)
+        from T_RECORD t , T_EMPLOYEE emp
+        where 1=1
+        and t.fk_employee = emp.pk_employee
+        <include refid="query_where"/>
+    </select>
+
+    <select id="selectRecord" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        , emp.name
+        from T_RECORD t , T_EMPLOYEE emp
+        where 1=1
+        and t.fk_employee = emp.pk_employee
+        <include refid="query_where"/>
+        ORDER BY t.start_time
+        limit #{pageNo},#{rowNum}
+
+    </select>
+
+    <sql id="query_where">
+       <!-- <if test="employeeName !=null and employeeName !=''">
+            and EXISTS (select 1 from t_employee emp where emp.name  like CONCAT('%',#{employeeName},'%')
+        </if>-->
+
+        <if test="employeeName !=null and employeeName !=''">
+            and  emp.name  = #{employeeName}
+        </if>
+
+        <if test="startTime !=null and startTime !=''">
+            and  <![CDATA[ t.start_time >= #{startTime} ]]>
+        </if>
+
+        <if test="endTime !=null and endTime !=''">
+            and <![CDATA[ t.end_time >= #{endTime} ]]>
+        </if>
+
+        <if test="employeeId !=null and employeeId !='' and isAdminFlag != 2">
+            and t.fk_employee = #{employeeId}
+        </if>
+
+    </sql>
+
+    <!--员工签到 如果数据库没有当前员工签到信息，即第一次签到插入开始时间，往后不管用户点击多少次都是插入结束时间-->
+    <!--// TODO 这个SQL有点LOW 后续看有没有类似于merge的用法-->
+    <!--查询员工当天是否有签到-->
+    <select id="selectRecordByEmployeeIdToday" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Record">
+        select
+        <include refid="Base_Column_List"/>
+        from T_RECORD t
+        where 1 =1
+        and t.fk_employee = #{employeeId}
+        and date(t.start_time) = curdate()
+        order by t.start_time
+        limit 1
+
+    </select>
+
+    <!--员工签到-->
+    <insert id="insertStartRecordInfo" parameterType="com.bestpay.bpbp.signin.dal.models.Record">
+        insert into T_RECORD(fk_employee,start_time,hours_work) VALUES (
+        #{employeeId},
+        now(),
+        0
+        );
+    </insert>
+
+    <!--员工签退 house_work 已经在java中处理-->
+    <update id="updateEndRecordInfo" parameterType="com.bestpay.bpbp.signin.dal.models.Record">
+        update T_RECORD t set t.end_time = now() ,  t.hours_work = #{hoursWork}
+        where 1 =1
+        and t.fk_employee = #{employeeId}
+        and date(t.start_time) = curdate();
+    </update>
+
+    <!--删除用户签到信息-->
+    <select id="deleteRecordByEmployeeId" parameterType="com.bestpay.bpbp.signin.dal.models.Record">
+        delete from T_RECORD
+        where 1 = 1
+        <if test="recordId !=null and recordId !=''">
+            and pk_record = #{recordId}
+        </if>
+        <if test="recordId ==null and recordId ==''">
+            and 1 =2
+        </if>
+    </select>
+
+</mapper>

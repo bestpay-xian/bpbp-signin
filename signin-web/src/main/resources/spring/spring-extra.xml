@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+    <bean class="com.bestpay.bpbp.signin.common.CustomPropertyPlaceholder">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="fileEncoding" value="utf-8"/>
+        <property name="locations">
+            <list>
+                <!-- 数据库配置文件-->
+                <value>classpath:properties/jdbc-dev.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <context:annotation-config />
+    <!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.bestpay.bpbp.signin">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <import resource="classpath:spring/spring-datasource.xml"/>
+    <import resource="classpath:spring/spring-mvc.xml"/>
+
+</beans>

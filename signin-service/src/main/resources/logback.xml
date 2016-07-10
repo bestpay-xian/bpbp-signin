@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="keep" converterClass="com.bestpay.bpbp.signin.common.utils.KeepConvert"/>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="utf-8">
+            <Pattern>[%d] [%keep] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="logInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${loggerLogRoot}/signin.log</File>
+        <encoder>
+            <Pattern>[%d] [%keep] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${loggerLogRoot}/signin-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    <appender name="logErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${loggerLogRoot}/signin-error.log</File>
+        <encoder>
+            <Pattern>[%d] [%keep] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${loggerLogRoot}/signin-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <logger name="java.sql" level="debug"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.ibatis" level="debug"/>
+    <logger name="org.apache.commons" level="INFO"/>
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="OFF"/>
+    <logger name="org.springframework.web.context.support.XmlWebApplicationContext" level="OFF"/>
+    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="OFF"/>
+    <logger name="com.alibaba.dubbo.config.AbstractConfig" level="INFO"/>
+    <logger name="com.bestpay.bpbp" level="DEBUG"/>
+    <logger name="com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol" level="OFF"/>
+    <logger name="com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry" level="OFF"/>
+    <logger name="com.alibaba.dubbo.remoting.transport.AbstractClient" level="OFF"/>
+    <logger name="org.apache.zookeeper" level="OFF"/>
+    <logger name="org.apache.commons.beanutils" level="OFF"/>
+    <logger name="com.bestpay.bpbp.signin.dal" level="DEBUG"/>
+
+    <root level="INFO" name="com.bestpay.bpbp">
+        <appender-ref ref="stdout"/>
+        <!--TODO 此配置上测试、生产环境要去掉-->
+        <appender-ref ref="logInfoFile"/>
+        <appender-ref ref="logErrorFile"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bestpay.bpbp.signin.dal.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Employee">
+        <id column="pk_employee" property="employeeId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="qq" property="qq" jdbcType="INTEGER"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="is_admin" property="isAdmin" jdbcType="INTEGER"/>
+        <result column="fk_platform" property="platformId" jdbcType="INTEGER"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="fk_team" property="team" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        pk_employee,name,phone,qq,email,is_admin,fk_platform,fk_team,is_delete
+    </sql>
+
+    <!-- 查询用户信息 -->
+    <select id="selectEmployeeList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from T_EMPLOYEE t WHERE  1=1
+        <if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and t.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="phone !=null and phone !=''">
+            and t.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0 ">
+            and t.pk_employee=#{employeeId}
+        </if>
+        <if test="isAdmin !=null and isAdmin !=0 ">
+            and t.is_admin=#{isAdmin}
+        </if>
+        and t.is_delete = 1
+        ORDER BY t.pk_employee LIMIT #{pageNo},#{rowNum}
+    </select>
+    <!-- 查询数据总条数 -->
+    <select id="selectEmployeeAllCount" resultType="java.lang.Integer" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        select
+        count(1)
+        from T_EMPLOYEE t WHERE  1=1
+        <if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and t.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="phone !=null and phone !=''">
+            and t.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0 ">
+            and t.pk_employee=#{employeeId}
+        </if>
+        <if test="isAdmin !=null and isAdmin !=0 ">
+            and t.is_admin=#{isAdmin}
+        </if>
+        and t.is_delete = 1
+    </select>
+
+    <!-- 通讯录数据查询，分页 -->
+    <select id="selectAllInfo" resultType="java.util.HashMap" parameterType="java.util.Map">
+        select tm.*,tp.name as platformname,tc.centername,tt.deptname,te.teamname from t_employee tm
+        left join t_team te on te.pk_team = tm.fk_team
+        left join t_platform tp on tm.fk_platform = tp.pk_platform
+        left join t_center tc on tc.pk_center_id = te.fk_center
+        left join t_dept tt on tc.fk_dept = tt.pk_deptid
+        where tm.is_delete=1 and te.is_delete=1 and tp.is_delete=1 and tc.is_delete = 1
+        and tt.is_delete=1
+        <if test="qq !=null and qq !=0 ">
+            and tm.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and tm.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and tm.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="phone !=null and phone !=''">
+            and tm.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0 ">
+            and tm.pk_employee=#{employeeId}
+        </if>
+        <if test="isAdmin !=null and isAdmin !=0 ">
+            and tm.is_admin=#{isAdmin}
+        </if>
+        ORDER BY tm.pk_employee LIMIT #{pageNo},#{rowNum}
+    </select>
+    <!-- 通讯录数据查询  总条数 -->
+    <select id="selectAllCount" resultType="java.lang.Integer" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        select COUNT(1) from t_employee tm
+        left join t_team te on te.pk_team = tm.fk_team
+        left join t_platform tp on tm.fk_platform = tp.pk_platform
+        left join t_center tc on tc.pk_center_id = te.fk_center
+        left join t_dept tt on tc.fk_dept = tt.pk_deptid
+        where tm.is_delete=1 and te.is_delete=1 and tp.is_delete=1 and tc.is_delete = 1
+        and tt.is_delete=1
+        <if test="qq !=null and qq !=0 ">
+            and tm.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and tm.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and tm.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="phone !=null and phone !=''">
+            and tm.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0 ">
+            and tm.pk_employee=#{employeeId}
+        </if>
+        <if test="isAdmin !=null and isAdmin !=0 ">
+            and tm.is_admin=#{isAdmin}
+        </if>
+    </select>
+    <!-- 查询用户信息，不分页 -->
+    <select id="selectEmployee" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        select
+        <include refid="Base_Column_List"/>
+        from T_EMPLOYEE t WHERE  1=1
+        <if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
+        </if><if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and t.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="phone !=null and phone !=''">
+            and t.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0 ">
+            and t.pk_employee=#{employeeId}
+        </if>
+        <if test="isAdmin !=null and isAdmin !=0 ">
+            and t.is_admin=#{isAdmin}
+        </if>
+        and t.is_delete = 1
+    </select>
+    <!-- 检查用户信息是否存在 -->
+    <select id="checkEmployeeList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from T_EMPLOYEE t WHERE  1=1
+        <if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
+        </if>
+        <if test="email !=null and email !=''">
+            and t.email=#{email}
+        </if>
+        <if test="name !=null and name !=''">
+            and t.name=#{name}
+        </if>
+        <if test="phone !=null and phone !=''">
+            and t.phone=#{phone}
+        </if>
+        <if test="employeeId !=null and employeeId !=0">
+            and t.pk_employee!=#{employeeId}
+        </if>
+        and t.is_delete = 1
+    </select>
+
+    <!-- 通过用户登录信息 -->
+    <select id="selectLogin" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        select
+        <include refid="Base_Column_List"/>,password
+        from T_EMPLOYEE t WHERE  1=1
+        <if test="email !=null and email !=''">
+            and t.email=#{email}
+        </if>
+        <if test="password !=null and password !=''">
+            and t.password=#{password}
+        </if>
+        and t.is_delete = 1
+    </select>
+
+    <!-- 插入用户信息 -->
+    <insert id="insertEmployee" keyProperty="pk_employee" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        insert into T_EMPLOYEE (name,phone,qq,email,password,is_admin,fk_platform)
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            #{name},#{phone},#{qq},#{email},#{password},#{isAdmin},#{platformId},
+        </trim>
+    </insert>
+
+    <!-- 修改用户信息 -->
+    <update id="updateEmployee" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        update T_EMPLOYEE t
+        <set>
+            <if test="name != null and name != ''">
+                t.name = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                t.phone = #{phone},
+            </if>
+            <if test="qq != null and qq != 0 ">
+                t.qq = #{qq},
+            </if>
+            <if test="email != null and email != ''">
+                t.email = #{email},
+            </if>
+            <if test="password != null and password != ''">
+                t.password = #{password},
+            </if>
+            <if test="isAdmin != null and isAdmin != 0 ">
+                t.is_admin = #{isAdmin},
+            </if>
+            <if test="platformId != null and platformId != 0 ">
+                t.fk_platform = #{platformId}
+            </if>
+        </set>
+        where t.pk_employee=#{employeeId}
+    </update>
+
+    <!-- 删除用户  -->
+    <update id="deleteEmployee" parameterType="java.lang.Integer">
+        update T_EMPLOYEE t
+        <set>
+            t.is_delete = 2
+        </set>
+        where t.pk_employee=#{employeeId}
+    </update>
+</mapper>

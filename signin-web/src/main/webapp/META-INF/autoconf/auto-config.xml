@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--日志配置logback.xml-->
+    <group name="logger">
+        <property name="context.name" defaultValue="bpbp-signin"/>
+        <property name="logback.path" defaultValue="/app/data/appLogs/bpbp-signin"/>
+        <property name="logger.logRoot" defaultValue="/app/data/appLogs/" description="日志根目录"/>
+        <property name="logger.logLevel" defaultValue="INFO" description="日志打印级别"/>
+        <property name="log.level" defaultValue="INFO" description="日志打印级别"/>
+    </group>
+
+    <!-- 数据连接池配置 -->
+    <group name="env">
+        <property name="jdbcUrl" defaultValue="jdbc:oracle:thin:@172.26.8.17:1521:yg"/>
+        <property name="jdbcUsername" defaultValue="emf"/>
+        <property name="jdbcPassword" defaultValue="emf"/>
+        <property name="jdbcDriverClassName" defaultValue="oracle.jdbc.driver.OracleDriver"/>
+        <property name="jdbcInitialSize" defaultValue="10"/>
+        <property name="jdbcMaxActive" defaultValue="15"/>
+        <property name="jdbcMaxIdle" defaultValue="15"/>
+        <property name="jdbcMaxWait" defaultValue="1000"/>
+        <property name="jdbcMinEvictableIdleTimeMillis" defaultValue="300000"/>
+        <property name="jdbcMinIdle" defaultValue="10"/>
+        <property name="jdbcNumTestsPerEvictionRun" defaultValue="3"/>
+        <property name="jdbcTestOnBorrow" defaultValue="false"/>
+        <property name="jdbcTestWhileIdle" defaultValue="true"/>
+        <property name="jdbcTimeBetweenEvictionRunsMillis" defaultValue="1000"/>
+    </group>
+
+
+    <!-- 文件生成配置 -->
+    <script>
+        <!--<generate destfile="classpath:env.properties" template="env.properties.vm" charset="UTF-8"/>-->
+        <generate destfile="WEB-INF/classes/properties/env.properties" template="logback.xml.vm" charset="UTF-8"/>
+        <generate template="env.properties.vm" destfile="WEB-INF/classes/properties/env.properties" charset="UTF-8" />
+        <generate destfile="WEB-INF/classes/ops.properties" charset="UTF-8"/>
+    </script>
+</config>

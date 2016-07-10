@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bestpay.bpbp.signin.dal.mapper.DeptMapper">
+    <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Dept">
+        <id column="pk_deptid" property="deptId" jdbcType="INTEGER"/>
+        <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      PK_DEPTID,DEPTNAME,IS_DELETE
+    </sql>
+
+    <!-- 新增部门记录 -->
+    <insert id="insertDept" keyProperty="pk_deptid" parameterType="com.bestpay.bpbp.signin.dal.models.Dept">
+        insert into T_DEPT (DEPTNAME)
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            #{deptName}
+        </trim>
+    </insert>
+
+    <!-- 根据姓名模糊查询所有匹配的部分记录(不分页) -->
+    <select id="selectAllDept" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Dept">
+        select
+        <include refid="Base_Column_List"/>
+        from T_DEPT t WHERE  1=1
+        <if test="deptName !=null and deptName !='' ">
+            and t.deptname like CONCAT('%',#{deptName},'%')
+        </if>
+        <if test="deptId !=null and deptId !=0 ">
+            and t.pk_deptid = #{deptId}
+        </if>
+        and t.is_delete = 1
+    </select>
+
+
+    <!-- 根据姓名模糊查询所有匹配的部门记录(分页) -->
+    <select id="selectDeptPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from T_DEPT t WHERE  1=1
+        <if test="deptName !=null and deptName !='' ">
+            and t.deptname like CONCAT('%',#{deptName},'%')
+        </if>
+        and t.is_delete = 1
+        ORDER BY t.pk_deptid LIMIT #{pageNo},#{rowNum}
+    </select>
+
+    <!--  查询数据总条数 -->
+    <select id="selectDeptAllCount" resultType="java.lang.Integer" parameterType="com.bestpay.bpbp.signin.dal.models.Dept">
+        select
+        count(1)
+        from T_DEPT t WHERE  1=1
+        <if test="deptName !=null and deptName !='' ">
+            and t.deptName like CONCAT('%',#{deptName},'%')
+        </if>
+        and t.is_delete = 1
+    </select>
+
+
+    <!-- 检查信息名称信息是否存在 -->
+    <select id="checkDept" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Dept">
+        select
+        <include refid="Base_Column_List"/>
+        from T_DEPT t WHERE  1=1
+        <if test="deptName !=null and deptName !='' ">
+            and t.deptname = #{deptName}
+        </if>
+        <if test="deptId !=null and deptId !='' ">
+            and t.pk_deptid = #{deptId}
+        </if>
+        and t.is_delete = 1
+    </select>
+    <!-- 根据主键更新部门表 -->
+    <update id="updateDept" parameterType="java.lang.Integer">
+        update T_DEPT t
+        <set>
+            <if test="deptName != null and deptName != ''">
+                t.deptName = #{deptName}
+            </if>
+        </set>
+        where t.pk_deptid=#{deptId}
+    </update>
+    <!-- 根据主键删除平台表对应记录 -->
+    <update id="deleteDept" parameterType="java.lang.Integer">
+        update T_DEPT t
+        <set>
+            t.is_delete = 2
+        </set>
+        where t.pk_deptid=#{deptId}
+    </update>
+
+</mapper>

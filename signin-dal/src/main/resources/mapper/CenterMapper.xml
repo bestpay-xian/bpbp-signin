@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bestpay.bpbp.signin.dal.mapper.CenterMapper">
+    <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Center">
+        <id column="pk_center_id" property="centerId" jdbcType="INTEGER"/>
+        <result column="centername" property="centerName" jdbcType="VARCHAR"/>
+        <result column="fk_dept" property="deptId" jdbcType="INTEGER"/>
+        <result column="deptname" property="deptName" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      t.PK_CENTER_ID,t.CENTERNAME,t.FK_DEPT,t.IS_DELETE,d.DEPTNAME
+    </sql>
+
+
+    <!-- 按条件查询中心表记录(不分页) -->
+    <select id="selectCenterList" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_CENTER t
+        LEFT JOIN T_DEPT d ON t.FK_DEPT = d.PK_DEPTID
+        WHERE 1=1
+        <if test="centerName != null and centerName != ''">
+            AND t.CENTERNAME = #{centerName,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != '' and deptId != 0">
+            AND t.FK_DEPT = #{deptId,jdbcType=INTEGER}
+        </if>
+        AND t.IS_DELETE != 2
+        ORDER BY t.PK_CENTER_ID
+    </select>
+
+    <!-- 按条件查询中心表记录(分页) -->
+    <select id="selectCenterPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_CENTER t
+        LEFT JOIN T_DEPT d ON t.FK_DEPT = d.PK_DEPTID
+        WHERE 1=1
+        <if test="centerName != null and centerName != ''">
+            AND t.CENTERNAME = #{centerName,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != '' and deptId != 0">
+            AND t.FK_DEPT = #{deptId,jdbcType=INTEGER}
+        </if>
+        AND t.IS_DELETE != 2
+        ORDER BY t.PK_CENTER_ID LIMIT #{pageNo},#{rowNum}
+    </select>
+
+
+    <!-- 查询数据总条数 -->
+    <select id="selectCenterCount" resultType="java.lang.Integer"
+            parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        SELECT
+        COUNT(1)
+        FROM T_CENTER t WHERE 1=1
+        <if test="centerName != null and centerName != ''">
+            AND t.CENTERNAME = #{centerName,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != '' and deptId != 0">
+            AND t.FK_DEPT = #{deptId,jdbcType=INTEGER}
+        </if>
+        AND t.IS_DELETE != 2
+    </select>
+
+
+    <!--根据主键查询中心表记录-->
+    <select id="selectCenterById" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_CENTER t
+        LEFT JOIN T_DEPT d ON t.FK_DEPT = d.PK_DEPTID
+        WHERE 1=1
+        <if test="centerId != null and centerId != ''">
+            AND t.PK_CENTER_ID = #{centerId}
+        </if>
+        AND t.IS_DELETE != 2
+    </select>
+
+    <!--新增中心表记录-->
+    <insert id="insertCenter" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+         INSERT INTO T_CENTER (CENTERNAME,FK_DEPT)
+         VALUES (#{centerName,jdbcType=VARCHAR},#{deptId,jdbcType=INTEGER})
+    </insert>
+
+    <!--更新中心表记录-->
+    <update id="updateCenter" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        UPDATE T_CENTER t
+        <set>
+            <trim suffixOverrides=",">
+                <if test="centerName != null and centerName != ''">
+                    t.CENTERNAME = #{centerName,jdbcType=VARCHAR},
+                </if>
+                <if test="deptId != null and deptId != '' and deptId != 0">
+                    t.FK_DEPT = #{deptId,jdbcType=INTEGER},
+                </if>
+            </trim>
+        </set>
+        WHERE t.PK_CENTER_ID = #{centerId,jdbcType=INTEGER}
+    </update>
+
+    <!--软删除中心表记录-->
+    <update id="deleteCenter" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        update T_CENTER t
+        <set>
+            t.is_delete = 2
+        </set>
+        where t.PK_CENTER_ID=#{centerId}
+    </update>
+
+</mapper>
