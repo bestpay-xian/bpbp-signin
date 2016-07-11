@@ -195,7 +195,7 @@
     <insert id="insertEmployee" keyProperty="pk_employee" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
         insert into T_EMPLOYEE (name,phone,qq,email,password,is_admin,fk_platform)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            #{name},#{phone},#{qq},#{email},#{password},#{isAdmin},#{platformId},
+            #{name},#{phone},#{qq},#{email},#{password},#{isAdmin},#{platformId},#{teamId},
         </trim>
     </insert>
 
