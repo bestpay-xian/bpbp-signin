@@ -25,6 +25,7 @@
                     if (msg.type != 'success') {
                         return false;
                     } else {
+                        $("#selectId").append("<option>-请选择所属厂商-</option>");
                         $.each(msg.result, function (i, n) {
                             $("#selectId").append("<option value=\"" + n.platformId + "\">" + n.name + "</option>");
                         });
@@ -33,7 +34,23 @@
                     //拼装select
                 }
             });
+            //请求组别
+            $.ajax({
+                type: "post",
+                url: "<%=path%>/team/list.do",
+                success: function (msg) {
+                    if (msg.type != 'success') {
+                        return false;
+                    } else {
+                        $("#selectIdInfo").append("<option>-请选择所属团队-</option>");
+                        $.each(msg.result.lists , function (i, n) {
+                            $("#selectIdInfo").append("<option value=\"" + n.teamId + "\">" + n.teamName + "</option>");
+                        });
+                    }
 
+                    //拼装select
+                }
+            });
             $("#save").click(function () {
                 $("#newPassword").val(MD5($("#oldPassword").val()));
             });
@@ -105,13 +122,13 @@
                     phone: {
                         required: "员工电话不能为空",
                         remote: "员工电话已存在",
-                        rangelength: "输入长度在 10和 11 之间的整数",
+                        rangelength: "输入长度在 9和 11 之间的整数",
                         digits: "需要输入整数"
                     },
                     qq: {
                         required: "员工QQ不能为空",
                         remote: "员工QQ已存在",
-                        rangelength: "输入长度在 10和 11 之间的整数",
+                        rangelength: "输入长度在 6和 11 之间的整数",
                         digits: "需要输入整数"
                     },
                     email: {
@@ -150,18 +167,23 @@
             </li>
             <li><label>员工电话:</label><input name="phone" type="text" class="dfinput" rangelength="9,11" required="true"
                                            digits="true"/></li>
-            <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="9,11" required="true"
+            <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="6,11" required="true"
                                             digits="true"/></li>
             <li><label>员工邮箱:</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
             <li><label>员工密码:</label><input id="oldPassword" type="password" class="dfinput" required:="true"/></li>
+            <li><label>所属团队:</label>
+                <div class="vocation">
+                    <select id="selectIdInfo" class="select2">
+                    </select>
+                </div>
+            </li>
             <li><label>所属厂商:</label>
-
                 <div class="vocation">
                     <select id="selectId" class="select2">
                     </select>
                 </div>
             </li>
-            <input type="hidden" name="token" value="${token}"/>
+            <%--<input type="hidden" name="token" value="${token}"/>--%>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="save" type="submit" class="btn" value="确认保存"/></li>
         </ul>
