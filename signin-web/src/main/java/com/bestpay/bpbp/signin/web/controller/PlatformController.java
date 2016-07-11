@@ -138,7 +138,7 @@ public class PlatformController {
     @RequestMapping(value = ApiUrls.SELECT_PLATFORMNAME_URL,method = RequestMethod.POST)
     public Message selectAllPlatform(){
         try {
-            List<String> platformNameList = platformService.selectAllPlatformName();
+            List<Platform> platformNameList = platformService.selectAllPlatformName();
             log.info("平台模块-获取平台名结果{}",platformNameList);
             return Message.successRst(platformNameList,"查询成功");
         } catch (Exception e) {

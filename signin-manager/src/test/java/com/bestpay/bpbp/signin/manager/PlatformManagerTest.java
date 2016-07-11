@@ -32,7 +32,7 @@ public class PlatformManagerTest extends BaseSpringTest {
     @Test
     public void selectAllPlatformTest() {
         try {
-            List<String> nameList = platformManager.selectAllPlatformName();
+            List<Platform> nameList = platformManager.selectAllPlatformName();
             log.info("查询所有平台名成功",nameList);
         } catch (Exception e) {
             log.info("查询所有平台名失败:",e);

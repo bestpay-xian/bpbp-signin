@@ -4,27 +4,31 @@
  */
 package com.bestpay.bpbp.signin.web.controller;
 
-import com.bestpay.bpbp.signin.common.Message;
-import com.bestpay.bpbp.signin.common.Page;
-import com.bestpay.bpbp.signin.common.Pageable;
-import com.bestpay.bpbp.signin.common.utils.DateUtil;
-import com.bestpay.bpbp.signin.common.utils.Token;
-import com.bestpay.bpbp.signin.dal.models.Employee;
-import com.bestpay.bpbp.signin.dal.models.Record;
-import com.bestpay.bpbp.signin.dal.models.RecordRequest;
-import com.bestpay.bpbp.signin.web.constants.ApiUrls;
-import lombok.extern.slf4j.Slf4j;
+import java.text.ParseException;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import com.bestpay.bpbp.signin.dal.models.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.bestpay.bpbp.signin.service.signservice.RecordService;
 
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.util.List;
+import com.bestpay.bpbp.signin.common.Message;
+import com.bestpay.bpbp.signin.common.Page;
+import com.bestpay.bpbp.signin.common.Pageable;
+import com.bestpay.bpbp.signin.common.utils.DateUtil;
+import com.bestpay.bpbp.signin.dal.models.Employee;
+import com.bestpay.bpbp.signin.dal.models.Record;
+import com.bestpay.bpbp.signin.dal.models.RecordRequest;
+import com.bestpay.bpbp.signin.service.signservice.PlatformService;
+import com.bestpay.bpbp.signin.service.signservice.RecordService;
+import com.bestpay.bpbp.signin.web.constants.ApiUrls;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * RecordController
@@ -36,7 +40,10 @@ import java.util.List;
 public class RecordController {
 
     @Autowired
-    private RecordService recordService;
+    private RecordService   recordService;
+
+    @Autowired
+    private PlatformService platformService;
 
     /**
      * 查询员工打卡记录
@@ -50,7 +57,8 @@ public class RecordController {
      */
     @RequestMapping(value = ApiUrls.QUERY_RECORD_URL, method = RequestMethod.POST)
     @ResponseBody
-    private Message selectRecordList(RecordRequest record, HttpSession HttpSession, String startDate, String endDate, Pageable pageable) {
+    private Message selectRecordList(RecordRequest record, HttpSession HttpSession,
+                                     String startDate, String endDate, Pageable pageable) {
         log.info("签到信息查询入参{}{}{}{}{}", record, HttpSession, startDate, endDate, pageable);
         try {
             //前台传字符串
@@ -75,7 +83,6 @@ public class RecordController {
         }
     }
 
-
     /**
      * 员工签到
      *
@@ -84,7 +91,7 @@ public class RecordController {
      * @param model       model
      * @return 跳转页面
      */
-   // @Token(remove = true)
+    // @Token(remove = true)
     @RequestMapping(value = ApiUrls.INSERT_RECORD_URL, method = RequestMethod.POST)
     private String insertRecordInfo(Record record, HttpSession HttpSession, Model model) {
         log.info("员工签到入参{}{}", record, HttpSession);
@@ -93,7 +100,7 @@ public class RecordController {
         try {
             recordService.insertStartRecordInfo(record);
             model.addAttribute("message", "签到成功");
-            return  "redirect:/"+ApiUrls.RECORD_SIGNIN__FROM_URL+".do";
+            return "redirect:/" + ApiUrls.RECORD_SIGNIN__FROM_URL + ".do";
         } catch (Exception e) {
             log.error("用户签到失败{}", e);
             model.addAttribute("message", "插入失败请重试");
@@ -127,7 +134,6 @@ public class RecordController {
         return recordService.updateRecordByEmployeeId(record);
     }
 
-
     /**
      * 查询签到记录 from
      * @param recordRequest
@@ -136,19 +142,38 @@ public class RecordController {
      * @param model
      * @return
      */
-   // @Token(save = true)
+    // @Token(save = true)
     @RequestMapping(value = ApiUrls.RECORD_SIGNIN__FROM_URL)
-    private String findRecordList(RecordRequest recordRequest,HttpSession HttpSession,Pageable pageable,Model model){
-        log.info("签到信息查询入参:{}",recordRequest);
-        try{
-            Employee employee = (Employee)HttpSession.getAttribute("employee");
+    private String findRecordList(RecordRequest recordRequest, HttpSession HttpSession,
+                                  Pageable pageable, Model model) {
+        log.info("签到信息查询入参:{}", recordRequest);
+        try {
+            Employee employee = (Employee) HttpSession.getAttribute("employee");
             recordRequest.setEmployeeId(employee.getEmployeeId());
             recordRequest.setIsAdminFlag(employee.getIsAdmin());
-            model.addAttribute("list",recordService.selectRecordList(recordRequest, pageable));
+            model.addAttribute("list", recordService.selectRecordList(recordRequest, pageable));
             return ApiUrls.QUERY_RECORD_JSP;
-        }catch (Exception e){
-            log.error("签到信息查询错误信息:{}",e);
+        } catch (Exception e) {
+            log.error("签到信息查询错误信息:{}", e);
             return ApiUrls.QUERY_RECORD_JSP;
+        }
+    }
+
+    /**
+     * 转到签到页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.SIGNIN__FROM_URL)
+    private String signinFrom(Model model) {
+        try {
+            List<Platform> platform = platformService.selectAllPlatformName();
+            model.addAttribute("platform",platform);
+            log.info("转到签到页面结果：{}",platform);
+            return ApiUrls.SIGNIN__FROM_URL_JSP;
+        } catch (Exception e) {
+            log.error("转到签到页面出错：{}",e);
+            return ApiUrls.SIGNIN__FROM_URL_JSP;
         }
     }
 

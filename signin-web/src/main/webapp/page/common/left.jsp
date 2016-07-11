@@ -54,7 +54,7 @@
     <dd>
         <div class="title">
             <span><img src="<%=path%>/resources/images/leftico01.png"/></span>
-            <a href="<%=path%>/page/common/signin.jsp" target="rightFrame">员工签到</a>
+            <a href="<%=path%>/signin.do" target="rightFrame">员工签到</a>
         </div>
 
         <div class="title">

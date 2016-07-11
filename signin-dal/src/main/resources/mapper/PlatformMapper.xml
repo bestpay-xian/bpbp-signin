@@ -3,9 +3,9 @@
 
 <mapper namespace="com.bestpay.bpbp.signin.dal.mapper.PlatformMapper">
     <resultMap id="BaseResultMap" type="com.bestpay.bpbp.signin.dal.models.Platform">
-        <id column="pk_platform" property="platformId" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="fk_group" property="group" jdbcType="INTEGER"/>
+        <id column="PK_PLATFORM" property="platformId" jdbcType="INTEGER"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="FK_GROUP" property="group" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
       PK_PLATFORM, NAME, FK_GROUP
@@ -48,9 +48,9 @@
     </select>
 
     <!--查询所有平台名（下拉列表使用）-->
-    <select id="selectAllPlatformName" resultType="java.lang.String">
+    <select id="selectAllPlatformName" resultMap="BaseResultMap" resultType="com.bestpay.bpbp.signin.dal.models.Platform">
         SELECT
-        t.NAME
+        <include refid="Base_Column_List"/>
         FROM T_PLATFORM t
     </select>
 

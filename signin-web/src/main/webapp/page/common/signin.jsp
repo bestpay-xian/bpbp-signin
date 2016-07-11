@@ -1,5 +1,6 @@
 <%@ page import="com.bestpay.bpbp.signin.dal.models.Employee" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     Employee employee = (Employee) session.getAttribute("employee");
@@ -56,16 +57,23 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><%=employee.getEmployeeId()%></td>
-                        <td><%=employee.getName()%></td>
-                        <td><%=employee.getPlatformId()%></td>
-                        <td><input type="submit"  class="signinbut" value="签到/签退" onclick="return firm();"/></td>
+                        <td><%=employee.getEmployeeId()%>
+                        </td>
+                        <td><%=employee.getName()%>
+                        </td>
+                        <td>
+                            
+                            <c:forEach var="p" items="${platform}">
+                                <c:if test="${employee.platformId == p.platformId}">
+                                    <c:out value="${p.name}"></c:out>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td><input type="submit" class="signinbut" value="签到/签退" onclick="return firm();"/></td>
                         <td style="color: red;">请注意，第一次为签到，第二次为签退</td>
                     </tr>
                     </tbody>
                 </table>
-                <%--<form action="<%=path%>/record/insertRecord.do" method="post">--%>
-                <%--<input type="submit" class="btn" value="签到" onclick="return firm();"/>--%>
             </form>
         </div>
     </div>
