@@ -26,98 +26,15 @@
 
         $(document).ready(function () {
             recordList();
-            $("#News-Pagination").pagination(${list.total}, {
-                items_per_page: 10, // 每页显示多少条记录
-                current_page: ${list.pageNo}-1, // 当前显示第几页数据
-                num_display_entries: 3, // 分页显示的条目数s
-                next_text: "下一页",
-                prev_text: "上一页",
-                num_edge_entries: 2, // 连接分页主体，显示的条目数
-                callback: handlePaginationClick
-            });
-
         });
 
         function handlePaginationClick(new_page_index, pagination_container) {
 
+            //清空上次数据
             $("#userList").html("");
             $(".pagin").html("");
+
             var page = new_page_index + 1;
-            $.ajax({
-                type: "post",
-                url: "<%=path%>/record/list.do",
-                dataType: "json",
-                data: {"pageNo": page},
-                success: function (msg) {
-                    $.each(msg.result.lists, function (i, n) {
-//                        var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : new Date(n.startTime).toLocaleString();
-//                        var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : new Date(n.endTime).toLocaleString();
-                        var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : dataFormat(n.startTime);
-                        var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : dataFormat(n.endTime);
-
-                        $("#userList").append("<tr><td>" + n.recordId + "</td>" +
-                        "<td>" + n.employeeName + "</td>" +
-                        "<td>" + startTime + "</td>" +
-                        "<td>" + endTime + "</td>" +
-                        "<td>" + n.hoursWork + "</td></tr>");
-                    });
-                    $(".pagin").append(
-                            "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;" + msg.result.pageNo + "<i class='blue'>&nbsp;</i>页</div>" +
-                            "<input id='total' type='hidden' value='" + msg.result.total + "'/>"
-                    );
-                }
-            });
-            return false;
-        }
-
-
-        function recordList() {
-            $.ajax({
-                type: "post",
-                url: "<%=path%>/record/list.do",
-                dataType: "json",
-                success: function (msg) {
-                    $.each(msg.result.lists, function (i, n) {
-
-
-                        //var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : new Date(n.startTime).toLocaleString();
-                        //var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : new Date(n.endTime).toLocaleString();
-
-                        var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : dataFormat(n.startTime);
-                        var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : dataFormat(n.endTime);
-
-                        $("#userList").append(
-                                "<tr><td>" + n.recordId + "</td>" +
-                                "<td>" + n.employeeName + "</td>" +
-                                "<td>" + startTime + "</td>" +
-                                "<td>" + endTime + "</td>" +
-                                "<td>" + n.hoursWork + "</td></tr>");
-                    });
-
-                    $(".pagin").append(
-                            "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;<i class='blue'>" + msg.result.pageNo + "&nbsp;</i>页</div>" +
-                            "<input id='total' type='hidden' value='" + msg.result.total + "'>"
-                    );
-                }
-            });
-        }
-
-        function dataFormat(dateStr) {
-            var d = new Date(dateStr);
-            var year = d.getFullYear()
-            var month = d.getMonth() + 1;
-            var day = d.getDate();
-            var hour = d.getHours();
-            var min = d.getMinutes();
-
-            var time = year + '-' + (Array(2).join(0)+month).slice(-2) + '-' + (Array(2).join(0)+day).slice(-2) + ' '
-                    + (Array(2).join(0)+hour).slice(-2) + ':' + (Array(2).join(0)+min).slice(-2);
-            return time;
-        }
-
-
-        //点击查询
-        function selectRecordInfo() {
             var startTime = $("input[name='startDate']").val();
             var endTime = $("input[name='endDate']").val();
             if (startTime) {
@@ -137,34 +54,115 @@
                 alert("开始时间必须小于签退时间");
                 return;
             }
-            //清空上次数据
-            $("#userList").html("");
 
             $.ajax({
                 type: "post",
                 url: "<%=path%>/record/list.do",
-                //dataType: "json",
+                dataType: "json",
                 data: {
+                    "pageNo": page,
                     "employeeName": $("#username").val(),
                     "startDate": startTime,
                     "endDate": endTime
                 },
                 success: function (msg) {
                     $.each(msg.result.lists, function (i, n) {
-                        //var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : new Date(n.startTime).toLocaleString();
-                        //var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : new Date(n.endTime).toLocaleString();
+
                         var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : dataFormat(n.startTime);
                         var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : dataFormat(n.endTime);
+
+                        $("#userList").append("<tr><td>" + n.recordId + "</td>" +
+                                "<td>" + n.employeeName + "</td>" +
+                                "<td>" + startTime + "</td>" +
+                                "<td>" + endTime + "</td>" +
+                                "<td>" + n.hoursWork + "</td></tr>");
+                    });
+
+                    $(".pagin").append(
+                            "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;" + msg.result.pageNo + "<i class='blue'>&nbsp;</i>页</div>" +
+                            "<input id='total' type='hidden' value='" + msg.result.total + "'/>"
+                    );
+                }
+            });
+            return false;
+        }
+
+        function recordList() {
+            //清空上次数据
+            $("#userList").html("");
+            $(".pagin").html("");
+
+            var startTime = $("input[name='startDate']").val();
+            var endTime = $("input[name='endDate']").val();
+
+            if (startTime) {
+                startTime = new Date(startTime).Format("yyyy-MM-dd hh:mm:ss");
+            } else {
+                startTime = "";
+            }
+
+            if (endTime) {
+                endTime = new Date(endTime).Format("yyyy-MM-dd hh:mm:ss");
+            } else {
+                endTime = "";
+            }
+            //校验
+            if (startTime > endTime && endTime) {
+                alert("开始时间必须小于签退时间");
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "<%=path%>/record/list.do",
+                dataType: "json",
+                data: {
+                    "employeeName": $("#username").val(),
+                    "startDate": startTime,
+                    "endDate": endTime
+                },
+                success: function (msg) {
+                    $("#News-Pagination").pagination(msg.result.total, {
+                        items_per_page: 10, // 每页显示多少条记录
+                        current_page: msg.result.pageNo-1, // 当前显示第几页数据
+                        num_display_entries: 3, // 分页显示的条目数s
+                        next_text: "下一页",
+                        prev_text: "上一页",
+                        num_edge_entries: 2, // 连接分页主体，显示的条目数
+                        callback: handlePaginationClick
+                    });
+                    $.each(msg.result.lists, function (i, n) {
+                        var startTime = (n.startTime == null || n.startTime == "" || n.startTime == undefined) ? "" : dataFormat(n.startTime);
+                        var endTime = (n.endTime == null || n.endTime == "" || n.endTime == undefined) ? "" : dataFormat(n.endTime);
+
                         $("#userList").append(
                                 "<tr><td>" + n.recordId + "</td>" +
                                 "<td>" + n.employeeName + "</td>" +
                                 "<td>" + startTime + "</td>" +
                                 "<td>" + endTime + "</td>" +
                                 "<td>" + n.hoursWork + "</td></tr>");
-
                     });
+
+                    $(".pagin").append(
+                            "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;<i class='blue'>" + msg.result.pageNo + "&nbsp;</i>页</div>" +
+                            "<input id='total' type='hidden' value='" + msg.result.total + "'>"
+                    );
                 }
             });
+        }
+
+        //时间格式化
+        function dataFormat(dateStr) {
+            var d = new Date(dateStr);
+            var year = d.getFullYear();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var hour = d.getHours();
+            var min = d.getMinutes();
+
+            var time = year + '-' + (Array(2).join(0) + month).slice(-2) + '-' + (Array(2).join(0) + day).slice(-2) + ' '
+                    + (Array(2).join(0) + hour).slice(-2) + ':' + (Array(2).join(0) + min).slice(-2);
+            return time;
         }
 
     </script>
@@ -191,7 +189,7 @@
                 </li>
                 <li><label>签退时间：</label><input name="endDate" type="text" class="scinput" onfocus="WdatePicker()"/></li>
                 <li><label>&nbsp;</label><input id="selBut" name="" type="button" class="scbtn" value="查询"
-                                                onclick="selectRecordInfo()"/></li>
+                                                onclick="recordList()"/></li>
             </ul>
             <table class="tablelist">
                 <thead>
