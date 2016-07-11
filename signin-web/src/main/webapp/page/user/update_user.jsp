@@ -166,12 +166,6 @@
             <li><label>员工电话:</label><input name="phone" type="text" class="dfinput" rangelength="9,11" required="true" digits="true" value="${employee.phone}"/></li>
             <li><label>员工QQ:  </label><input name="qq"    type="text" class="dfinput"  rangelength="6,11" required="true" digits="true"value="${employee.qq}"/></li>
             <li><label>员工邮箱:</label><input name="email" type="text" class="dfinput" email="true" required="true"value="${employee.email}"/></li>
-            <li><label>所属厂商:</label>
-                <div class="vocation">
-                    <select id="selectId" class="select2">
-                    </select>
-                </div>
-            </li>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                <input id="save" type="submit" class="btn" value="确认修改"/></li>
         </ul>
