@@ -56,7 +56,7 @@ public class Employee implements Serializable{
     /**
      * 组Id
      */
-    private int team;
+    private int teamId;
 
     /**
      * 是否删除(1-存在  2-删除)
