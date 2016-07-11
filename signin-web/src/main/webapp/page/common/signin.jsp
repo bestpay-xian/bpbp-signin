@@ -1,5 +1,6 @@
 <%@ page import="com.bestpay.bpbp.signin.dal.models.Employee" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     Employee employee = (Employee) session.getAttribute("employee");
@@ -56,10 +57,19 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><%=employee.getEmployeeId()%></td>
-                        <td><%=employee.getName()%></td>
-                        <td><%=employee.getPlatformId()%></td>
-                        <td><input type="submit"  class="signinbut" value="签到/签退" onclick="return firm();"/></td>
+                        <td><%=employee.getEmployeeId()%>
+                        </td>
+                        <td><%=employee.getName()%>
+                        </td>
+                        <td>
+                            <c:if test="<%=employee.getPlatformId() == 0 %>">
+                                <span>超级管理员</span>
+                            </c:if>
+                            <c:if test="<%=employee.getPlatformId() == 1 %>">
+                                <span>华腾</span>
+                            </c:if>
+                        </td>
+                        <td><input type="submit" class="signinbut" value="签到/签退" onclick="return firm();"/></td>
                         <td style="color: red;">请注意，第一次为签到，第二次为签退</td>
                     </tr>
                     </tbody>
