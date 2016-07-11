@@ -216,6 +216,30 @@ public class CenterController {
     }
 
 
+//    /**
+//     * 验证平台名是否有重复记录
+//     * @param
+//     * @return
+//     */
+//    @ResponseBody
+//    @RequestMapping(value = ApiUrls.VALIDATE_CENTERNAME_ISEXIST_URL,method = RequestMethod.POST)
+//    public boolean validateCenterIsExist(Center center){
+//        try {
+//            log.info("验证平台名-请求参数{}",center);
+//            boolean isExist = true;//中心表名不存在
+//            List<Center> centerListList = centerService.selectCenterList(center);
+//            if(centerListList != null && centerListList.size() > 0){
+//                isExist = false;//中心表名存在
+//            }
+//            log.info("验证平台名(true：中心表名不存在，false:中心表名存在){}",isExist);
+//            return isExist;
+//        } catch (Exception e) {
+//            log.error("验证平台名exception{}", e);
+//            return false;
+//        }
+//    }
+
+
     /**
      * 验证平台名是否有重复记录
      * @param
@@ -223,22 +247,14 @@ public class CenterController {
      */
     @ResponseBody
     @RequestMapping(value = ApiUrls.VALIDATE_CENTERNAME_ISEXIST_URL,method = RequestMethod.POST)
-    public boolean validateCenterIsExist(Center center){
+    public String validateCenter(Center center){
         try {
             log.info("验证平台名-请求参数{}",center);
-            boolean isExist = true;//中心表名不存在
-            List<Center> centerListList = centerService.selectCenterList(center);
-            if(centerListList != null && centerListList.size() > 0){
-                isExist = false;//中心表名存在
-            }
-            log.info("验证平台名(true：中心表名不存在，false:中心表名存在){}",isExist);
-            return isExist;
+            return centerService.validateCenter(center);
         } catch (Exception e) {
             log.error("验证平台名exception{}", e);
-            return false;
+            return "Exception";
         }
     }
-
-
 
 }

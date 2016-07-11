@@ -6,7 +6,9 @@ import com.bestpay.bpbp.signin.dal.models.Center;
 import com.bestpay.bpbp.signin.manager.CenterManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import javax.print.DocFlavor;
 import java.util.List;
 
 /**
@@ -78,6 +80,17 @@ public class CenterService {
      */
     public Center selectCenterById(Center center) throws Exception{
         return centerManager.selectCenterById(center);
+    }
+
+
+    public String validateCenter(Center center) throws Exception{
+        List<Center> centerList=centerManager.validateCenter(center);
+        if(CollectionUtils.isEmpty(centerList)){
+            return "ISEXSTER";
+        }else {
+            return "NOTEXSTER";
+        }
+
     }
 
 }

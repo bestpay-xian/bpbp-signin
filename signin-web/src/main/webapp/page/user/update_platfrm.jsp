@@ -66,7 +66,7 @@
 
     <div class="formtitle"><span>基本信息</span></div>
     <form action="<%=path%>/platform/updatePlatform.do" id="formId" method="post">
-        <ul id="forminfo">
+        <ul class="forminfo">
                 <li><label></label><input name="platformId" type="hidden" class="dfinput" value="${requestScope.record.platformId}"/></li>
                 <li><label>厂商名</label><input name="name" type="text" class="dfinput" value="${requestScope.record.name}" /></li>
             <br>

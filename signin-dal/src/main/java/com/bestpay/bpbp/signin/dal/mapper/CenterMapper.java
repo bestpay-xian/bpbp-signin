@@ -65,4 +65,10 @@ public interface CenterMapper {
      * @param center
      */
     public void deleteCenter(Center center) throws SQLException;
+
+
+
+
+    public List<Center> validateCenter(Center center) throws SQLException;
+
 }

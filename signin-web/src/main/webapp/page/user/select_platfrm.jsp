@@ -23,12 +23,11 @@
 
 
           function del( jsObj) {
-             /*if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
+              if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
 
-              }else{
+              } else {
                   return false;
-              }*/
-              //  var par = this.parentNode.firstChild.value;
+              }
               $.ajax({
                   type: "post",
                   dataType: "json",
@@ -59,9 +58,7 @@
                     } else {
                         $.each(msg.result.lists, function (index, jsonObj) {
                             var tme=jsonObj.platformId;
-                            /* $("#addBussessin").append("<tr id="+tme+"><td>"+tme +"</td><td>" +jsonObj.name + "</td><td  onclick='del(\""+tme+"\")'>"+"删除</td><td onclick='upd(\""+tme+","+tname+"\")'>"+"更新</td></tr>");*/
-                            $("#addBussessin").append("<tr id="+tme+"><td>"+tme +"</td><td>" +jsonObj.name + "</td><td  onclick='del(\""+tme+"\")'>"+"删除</td><td ><form action='<%=path%>/platform/selectPlatformById.do' method='"+"post"+"' ><input type='hidden' name='platformId' value='"+tme+" '><input type='submit' value='修改 '></form></td></tr>");
-                            // $("#addBussessin").append("<tr id="+tme+"><td>"+tme +"</td><td>" +jsonObj.name + "</td><td  onclick='del(\""+tme+"\")'>"+"删除</td><td ><a href='<%=path%>/platform/upd.do?'"+tme+"'>修改</a></td></tr>");
+                            $("#addBussessin").append("<tr id="+tme+"><td>"+tme +"</td><td>" +jsonObj.name + "</td><td  onclick='del(\""+tme+"\")'>"+"<font style='cursor:pointer'>删除</font></td><td ><form action='<%=path%>/platform/selectPlatformById.do' method='"+"post"+"' ><input type='hidden' name='platformId' value='"+tme+" '><input type='submit'  style='cursor:pointer' value='修改 '></form></td></tr>");
 
 
                         });

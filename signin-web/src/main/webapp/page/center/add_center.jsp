@@ -48,37 +48,37 @@
         }
       });
     }
-    function validate1() {
-      $("#formId").validate({
-        rules: {
-          centerName: {
-            required: true,
-            remote: {
-              type: "post",
-              dataType: "json",
-              url: "<%=path%>/center/validateCenterIsExist.do",
-              data: {
-                name: function () {
-                  return $("input[name='centerName']").val();
-                }
-              }
-            }
+    <%--function validate1() {--%>
+      <%--$("#formId").validate({--%>
+        <%--rules: {--%>
+          <%--centerName: {--%>
+            <%--required: true,--%>
+            <%--remote: {--%>
+              <%--type: "post",--%>
+              <%--dataType: "json",--%>
+              <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
+              <%--data: {--%>
+                <%--name: function () {--%>
+                  <%--return $("input[name='centerName']").val();--%>
+                <%--}--%>
+              <%--}--%>
+            <%--}--%>
 
-          }
-        },
-        messages: {
+          <%--}--%>
+        <%--},--%>
+        <%--messages: {--%>
 
 
-          centerName: {
-            required: "中心名不能为空！",
-            remote: "中心名已存在"
-          }
-        },
-        submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
-          form.submit();   //提交表单
-        }
-      });
-    }
+          <%--centerName: {--%>
+            <%--required: "中心名不能为空！",--%>
+            <%--remote: "中心名已存在"--%>
+          <%--}--%>
+        <%--},--%>
+        <%--submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form--%>
+          <%--form.submit();   //提交表单--%>
+        <%--}--%>
+      <%--});--%>
+    <%--}--%>
   </script>
 </head>
 
@@ -95,12 +95,12 @@
 <div class="formbody">
   <div class="formtitle"><span>基本信息</span></div>
   <form id="formId" action="<%=path%>/center/addCenter.do" method="post">
-
-
-    <ul id="forminfo">
+    <ul class="forminfo">
       <li><label>部门</label>
+        <div class="vocation">
         <select id="selectDept"  class="select2" name="deptId">
         </select>
+        </div>
       </li>
       <li><label>中心</label>
         <input name="centerName" type="text" class="dfinput" ></li></br>

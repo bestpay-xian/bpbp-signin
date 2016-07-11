@@ -63,7 +63,7 @@
 <div class="formbody">
     <div class="formtitle"><span>基本信息</span></div>
     <form id="formId" action="<%=path%>/platform/addPlatform.do" method="post">
-        <ul id="forminfo">
+        <ul class="forminfo">
               <li><label>厂商名:</label><input name="name" type="text" class="dfinput" ></li></br>
               <li><label>&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input  type="submit" class="btn"/>
                 <!--<button id="submit">确认添加</button>-->
