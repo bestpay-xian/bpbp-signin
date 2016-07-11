@@ -64,7 +64,7 @@ public class PlatformManager {
      * @param
      * @return
      */
-    public List<String> selectAllPlatformName() throws SQLException{
+    public List<Platform> selectAllPlatformName() throws SQLException{
         return platformMapper.selectAllPlatformName();
     }
 

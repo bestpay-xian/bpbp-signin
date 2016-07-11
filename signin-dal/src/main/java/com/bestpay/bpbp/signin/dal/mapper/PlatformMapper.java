@@ -51,7 +51,7 @@ public interface PlatformMapper {
      * @param
      * @return
      */
-    public List<String> selectAllPlatformName() throws SQLException;
+    public List<Platform> selectAllPlatformName() throws SQLException;
 
     /**
      * 根据主键查询平台记录

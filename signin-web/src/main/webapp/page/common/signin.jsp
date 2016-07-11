@@ -62,20 +62,18 @@
                         <td><%=employee.getName()%>
                         </td>
                         <td>
-                            <c:if test="<%=employee.getPlatformId() == 0 %>">
-                                <span>超级管理员</span>
-                            </c:if>
-                            <c:if test="<%=employee.getPlatformId() == 1 %>">
-                                <span>华腾</span>
-                            </c:if>
+                            
+                            <c:forEach var="p" items="${platform}">
+                                <c:if test="${employee.platformId == p.platformId}">
+                                    <c:out value="${p.name}"></c:out>
+                                </c:if>
+                            </c:forEach>
                         </td>
                         <td><input type="submit" class="signinbut" value="签到/签退" onclick="return firm();"/></td>
                         <td style="color: red;">请注意，第一次为签到，第二次为签退</td>
                     </tr>
                     </tbody>
                 </table>
-                <%--<form action="<%=path%>/record/insertRecord.do" method="post">--%>
-                <%--<input type="submit" class="btn" value="签到" onclick="return firm();"/>--%>
             </form>
         </div>
     </div>

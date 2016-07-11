@@ -89,6 +89,8 @@ public class ApiUrls {
     public static final String RECORD_SIGNIN_URL       = "/common/signin";
     /** 员工签到记录 from*/
     public static final String RECORD_SIGNIN__FROM_URL = "/record/recordFromList";
+    /**签到页面 url*/
+    public static final String SIGNIN__FROM_URL = "/signin";
 
     /** 员工列表信息 jsp**/
     public static final String QUERY_EMPLOYEE_JSP       = "/user/select_user";
@@ -102,6 +104,8 @@ public class ApiUrls {
     public static final String QUERY_COMM_JSP = "/user/communication_list";
     /**签到记录信息 jsp*/
     public static final String QUERY_RECORD_JSP = "/record/record_list";
+    /**转到签到页面 jsp*/
+    public static final String SIGNIN__FROM_URL_JSP = "/common/signin";
 
     /**新增、修改、查询厂商后返回到list页面*/
     public static final String SAVE_OR_UPDATE_PLATFORM_BACK_URL   = "/user/select_platfrm";

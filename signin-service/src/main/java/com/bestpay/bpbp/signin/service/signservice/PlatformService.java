@@ -58,7 +58,7 @@ public class PlatformService {
      * @param
      * @return
      */
-    public List<String>  selectAllPlatformName() throws Exception{
+    public List<Platform>  selectAllPlatformName() throws Exception{
         return platformManager.selectAllPlatformName();
     }
 
