@@ -108,5 +108,22 @@
         </set>
         where t.PK_CENTER_ID=#{centerId}
     </update>
-
+    <select id="validateCenter" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_CENTER t
+        LEFT JOIN T_DEPT d ON t.FK_DEPT = d.PK_DEPTID
+        WHERE 1=1
+        <if test="centerName != null and centerName != ''">
+            AND t.CENTERNAME = #{centerName,jdbcType=VARCHAR}
+        </if>
+        <if test="centerId != null and centerId != ''">
+            AND t.pk_center_id != #{centerName,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != '' and deptId != 0">
+            AND t.FK_DEPT = #{deptId,jdbcType=INTEGER}
+        </if>
+        AND t.IS_DELETE != 2
+        ORDER BY t.PK_CENTER_ID
+    </select>
 </mapper>

@@ -53,12 +53,12 @@
                               "<td>" + teamObj.teamId + "</td>" +
                               "<td>" + teamObj.centerName + "</td>" +
                               "<td>" + teamObj.teamName + "</td>" +
-                              "<td onclick='del(\"" + teamObj.teamId + "\")'>" + "删除" + "</td>" +
+                              "<td onclick='del(\"" + teamObj.teamId + "\")'>" + "<font style='cursor:pointer'>删除</font>" + "</td>" +
                               "<td>" +
                               "<form action='<%=path%>/team/single.do' method='post' >" +
                               "<input type='hidden' name='teamId' value='" + teamObj.teamId + "'>" +
                               "<input type='hidden' name='centerId'  value='" + teamObj.centerId + "'>" +
-                              "<input type='submit' value='修改'>" +
+                              "<input type='submit' style='cursor:pointer' value='修改'>" +
                               "</form>" +
                               "</td>" +
                               "</tr>");
@@ -89,12 +89,12 @@
                               "<td>"+teamObj.teamId+"</td>"+
                               "<td>"+teamObj.centerName+"</td>"+
                               "<td>"+teamObj.teamName+"</td>"+
-                              "<td onclick='del(\""+teamObj.teamId+ "\")'>"+"删除"+"</td>"+
+                              "<td onclick='del(\""+teamObj.teamId+ "\")'>"+"<font style='cursor:pointer'>删除</font>"+"</td>"+
                               "<td>"+
                               "<form action='<%=path%>/team/single.do' method='post' >"+
                               "<input type='hidden' name='teamId' value='"+teamObj.teamId+"'>"+
                               "<input type='hidden' name='centerId'  value='"+teamObj.centerId+"'>"+
-                              "<input type='submit' value='修改'>"+
+                              "<input type='submit' style='cursor:pointer' value='修改'>"+
                               "</form>"+
                               "</td>"+
                               "</tr>");
@@ -114,7 +114,6 @@
 
   function del(id) {
 
-      alert(id);
       if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
 
       } else {

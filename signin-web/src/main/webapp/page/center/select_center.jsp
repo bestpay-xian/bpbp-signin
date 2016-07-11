@@ -54,12 +54,12 @@
                     "<td>"+teamObj.centerId+"</td>"+
                     "<td>"+teamObj.deptName+"</td>"+
                     "<td>"+teamObj.centerName+"</td>"+
-                    "<td onclick='del(\""+teamObj.centerId+ "\")'>"+"删除"+"</td>"+
+                    "<td onclick='del(\""+teamObj.centerId+ "\")'>"+"<font style='cursor:pointer'>删除</font>"+"</td>"+
                     "<td>"+
                     "<form action='<%=path%>/center/update_directive.do' method='post' >"+
                     "<input type='hidden' name='deptId' value='"+teamObj.deptId+"'>"+
                     "<input type='hidden' name='centerId'  value='"+teamObj.centerId+"'>"+
-                    "<input type='submit' value='修改'>"+
+                    "<input type='submit'style='cursor:pointer' value='修改'>"+
                     "</form>"+
                     "</td>"+
                     "</tr>");
@@ -93,12 +93,12 @@
                     "<td>"+teamObj.centerId+"</td>"+
                     "<td>"+teamObj.deptName+"</td>"+
                     "<td>"+teamObj.centerName+"</td>"+
-                    "<td onclick='del(\""+teamObj.centerId+ "\")'>"+"删除"+"</td>"+
+                    "<td onclick='del(\""+teamObj.centerId+ "\")'>"+"<font style='cursor:pointer'>删除</font>"+"</td>"+
                     "<td>"+
                     "<form action='<%=path%>/center/update_directive.do' method='post' >"+
                     "<input type='hidden' name='deptId' value='"+teamObj.deptId+"'>"+
                     "<input type='hidden' name='centerId'  value='"+teamObj.centerId+"'>"+
-                    "<input type='submit' value='修改'>"+
+                    "<input type='submit'style='cursor:pointer' value='修改'>"+
                     "</form>"+
                     "</td>"+
                     "</tr>");
@@ -117,7 +117,6 @@
   };
   function del(id){
 
-    alert(id);
     if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
 
     }else{
@@ -142,6 +141,7 @@
     });
 
   }
+
 </script>
 <head>
   <title></title>

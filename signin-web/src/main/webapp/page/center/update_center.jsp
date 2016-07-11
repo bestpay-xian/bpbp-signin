@@ -15,8 +15,6 @@
     <script type="text/javascript">
 
         $(function () {
-           //selectdept();
-            validate1();
             $(".select1").uedSelect({
                 width: 345
             });
@@ -26,7 +24,10 @@
             $(".select3").uedSelect({
                 width: 100
             });
-
+            validate1();
+            selectdept();
+//            sub();
+            addOpionChange();
 
         });
 
@@ -41,17 +42,17 @@
                         alert(msg.info);
                     }else{
                         $.each(msg.result.lists, function (index, teamObj) {
-                            $("#selectdept").append("<input type='hidden' name='deptId' value='"+teamObj.deptId+"'>"+ "<option  onchange='chaose(\""+teamObj.deptName+ "\")'>"+teamObj.deptName+"</option>");
+                            $("#selectdept").append("<input type='hidden' value='"+teamObj.deptId+"'>"+ "<option>"+teamObj.deptName+"</option>");
                         });
-
+//"<option  onchange='chaose(\""+teamObj.deptName+ "\")'>"+teamObj.deptName+"</option>"
                     }
                 }
             });
         }
 
-        function chaose(){
-            $("#deptName").val( $("#selectdept :selected").val());
-        }
+//        function chaose(){
+//            $("#deptName").val( $("#selectdept :selected").val());
+//        }
         function validate1() {
             $("#formId").validate({
                 rules: {
@@ -71,8 +72,6 @@
                     }
                 },
                 messages: {
-
-
                     centerName: {
                         required: "中心名称不能为空！",
                         remote: "中心名称已存在"
@@ -83,6 +82,88 @@
                 }
             });
         }
+        function addOpionChange(){
+               $("#selectdept").change(function(){
+                   var deptName=$("#selectdept  option:selected").val();
+                   var deptId= $("#selectdept  option:selected").prev().val();
+                   if(deptId !="undefined"){
+
+                  $("#deptId").attr("value",deptId);
+                       $("#deptName").attr("value",deptName);
+               }
+               });
+        }
+//        function sub() {
+//            $("#formId").submit(function (e) {
+
+                <%--//验证中心号重复--%>
+                <%--var select = $("#selectdept  option:selected").val();--%>
+                <%--if (select === "请选择部门") {--%>
+                <%--var deptId =$("#deptId").attr("value").val();--%>
+                <%--var centerName=$("#centerName").attr("value").val();--%>
+                <%--var centerId=$("#centerId").attr("value").val();--%>
+
+                <%--$.ajax({--%>
+                <%--type: "post",--%>
+                <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
+                <%--dataType: "json",--%>
+                <%--date: {--%>
+                <%--"deptId":deptId,--%>
+                <%--"centerName":centerName,--%>
+                <%--"centerId":centerId--%>
+                <%--},--%>
+                <%--success: function (msg) {--%>
+                <%--if (msg.info == "验证失败") {--%>
+                <%--alert(msg.info);--%>
+                <%--return;--%>
+                <%--}--%>
+                <%--if(msg.result=="CENTRNOTLLNOLL"){--%>
+                <%--alert("中心号已存在");--%>
+                <%--return;--%>
+                <%--}--%>
+                <%--}--%>
+
+                <%--});--%>
+                <%--}--%>
+                <%--else{--%>
+                <%--var deptId= $("#selectdept  option:selected").next().val();--%>
+                <%--var centerName=$("#centerName").attr("value").val();--%>
+                <%--var centerId=$("#centerId").attr("value").val();--%>
+                <%--$.ajax({--%>
+                <%--type: "post",--%>
+                <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
+                <%--dataType: "json",--%>
+                <%--date: {--%>
+                <%--"deptId":deptId,--%>
+                <%--"centerName":centerName,--%>
+                <%--"centerId":centerId--%>
+                <%--},--%>
+                <%--success: function (msg) {--%>
+                <%--if (msg.info == "验证失败") {--%>
+                <%--alert(msg.info);--%>
+                <%--return;--%>
+                <%--}--%>
+                <%--if(msg.result=="CENTRNOTLLNOLL"){--%>
+                <%--alert("中心号已存在");--%>
+                <%--return;--%>
+                <%--}--%>
+                <%--}--%>
+
+                <%--});--%>
+                <%--}--%>
+                //
+//                var select=$("#selectdept  option:selected").val();
+//                if(select=="请选择部门"){
+//
+//                }else{
+//                    var deptId= $("#selectdept  option:selected").prev().val();
+//                    $("#deptId").attr("value",deptId);
+//                    var deptName=$("#selectdept  option:selected").val();
+//                    $("#deptName").attr("value",deptName);
+//                }
+//
+//            });
+//        }
     </script>
 </head>
 <body>
@@ -99,16 +180,23 @@
 
     <div class="formtitle"><span>基本信息</span></div>
     <form action="<%=path%>/center/updateCenter.do" id="formId" method="post">
-        <ul id="forminfo">
-            <!--  <li><label>修改所属部门</label>
-               -- <select id="selectdept"  class="select2" onchange="chaose()" >
-
-                  </select>
-                  -->
-
-            <li><label>所属部门: </label><input name="deptName" type="text" id="deptName" class="dfinput" value="${requestScope.center.deptName}" disabled="disabled"/></li>
+        <ul class="forminfo">
             <br>
-            <li><input name="centerId" type="hidden" class="dfinput" value="${requestScope.center.centerId}"/></li>
+            <li><label>请选择部门</label>
+                <div class="vocation">
+                    <select id="selectdept" class="select2">
+                        <option>请选择部门</option>
+                    </select>
+                </div>
+            </li>
+            <br>
+            <br>
+            <br>
+            <br>
+            <li><label>所选择的部门</label><input name="deptName" type="text" id="deptName" class="dfinput" value="${requestScope.center.deptName}" disabled="disabled"/></li>
+            <li><input name="deptId" id="deptId" type="hidden" class="dfinput" value="${requestScope.center.deptId}"/></li>
+            <br>
+            <li><input name="centerId" id="centerId" type="hidden" class="dfinput" value="${requestScope.center.centerId}"/></li>
             <li><label>中心名称:  </label><input name="centerName" type="text" class="dfinput" value="${requestScope.center.centerName}" /></li>
             <br>
             <li><label>&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input value="提交" type="submit" class="btn" /></li>

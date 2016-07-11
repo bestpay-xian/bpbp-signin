@@ -66,7 +66,7 @@
 <div class="formbody">
   <div class="formtitle"><span>基本信息</span></div>
   <form id="formId" action="<%=path%>/dept/insertDept.do" method="post">
-    <ul id="forminfo">
+    <ul class="forminfo">
       <li><label>部门名称:&nbsp;&nbsp;&nbsp;</label><input name="deptName" type="text" class="dfinput" rangelength="1,11" required="true"></li></br>
       <li><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input  type="submit" class="btn" value="确认添加"/>
       </li>

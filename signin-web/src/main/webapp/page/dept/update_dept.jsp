@@ -70,7 +70,7 @@
 
   <div class="formtitle"><span>部门更改</span></div>
   <form action="<%=path%>/dept/updateDept.do" id="formId" method="post">
-    <ul id="forminfo">
+    <ul class="forminfo">
       <li><label></label><input name="deptId" type="hidden" class="dfinput" value="${dept.deptId}" /></li>
       <li><label>部门名称:&nbsp;&nbsp;&nbsp;</label><input name="deptName" type="text" class="dfinput" value="${dept.deptName}" /></li></br>
       <li><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

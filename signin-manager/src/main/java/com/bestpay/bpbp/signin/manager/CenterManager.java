@@ -85,4 +85,8 @@ public class CenterManager {
     public void deleteCenter(Center center) throws Exception{
         centerMapper.deleteCenter(center);
     }
+
+    public List<Center> validateCenter(Center center) throws Exception{
+        return centerMapper.validateCenter(center);
+    }
 }

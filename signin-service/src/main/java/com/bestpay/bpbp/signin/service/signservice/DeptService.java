@@ -39,7 +39,7 @@ public class DeptService {
     public Page<Dept> findDeptList(Dept dept, Pageable pageable) throws Exception{
         //将Dept转Map
         Map map = BeanUtils.describe(dept);
-        map.put("pageNo", pageable.getPageNo());
+        map.put("pageNo", pageable.getPageNo()*pageable.getRowNum());
         map.put("rowNum",pageable.getRowNum());
         return new Page(deptManager.selectDeptPageList(map), deptManager.selectDeptAllCount(dept), pageable);
     }
