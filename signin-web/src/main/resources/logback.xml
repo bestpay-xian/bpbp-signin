@@ -7,13 +7,13 @@
         </encoder>
     </appender>
     <appender name="logInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${loggerLogRoot}/signin.log</File>
+        <File>${logger.logRoot}/signin.log</File>
         <encoder>
             <Pattern>[%d] [%keep] [%thread] [%level] [%file:%line] %msg%n</Pattern>
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${loggerLogRoot}/signin-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${logger.logRoot}/signin-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>512MB</maxFileSize>
@@ -21,13 +21,13 @@
         </rollingPolicy>
     </appender>
     <appender name="logErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${loggerLogRoot}/signin-error.log</File>
+        <File>${logger.logRoot}/signin-error.log</File>
         <encoder>
             <Pattern>[%d] [%keep] [%thread] [%level] [%file:%line] %msg%n</Pattern>
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${loggerLogRoot}/signin-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${logger.logRoot}/signin-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>512MB</maxFileSize>

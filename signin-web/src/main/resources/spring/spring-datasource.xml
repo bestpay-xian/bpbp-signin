@@ -3,9 +3,9 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-      http://www.springframework.org/schema/tx
-      http://www.springframework.org/schema/tx/spring-tx-4.0.xsd"
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd"
        default-lazy-init="true">
 
     <!--数据源 -->
@@ -16,16 +16,16 @@
         <property name="connectionLogErrorEnabled" value="true"/>
     </bean>-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${jdbcDriverClassName}"/>
-        <property name="jdbcUrl" value="${jdbcUrl}"/>
-        <property name="password" value="${jdbcPassword}"/>
-        <property name="user" value="${jdbcUsername}"/>
-        <property name="initialPoolSize" value="${jdbcInitialSize}" />
-        <property name="maxIdleTime" value="${jdbcMaxWait}" />
-        <property name="maxPoolSize" value="${jdbcMaxIdle}" />
-        <property name="minPoolSize" value="${jdbcMinIdle}" />
-        <property name="acquireIncrement" value="${acquire_increment}" />
-        <property name="checkoutTimeout" value="${checkout_timeout}" />
+        <property name="driverClass" value="${db.jdbcDriverClassName}"/>
+        <property name="jdbcUrl" value="${db.jdbcUrl}"/>
+        <property name="user" value="${db.jdbcUsername}"/>
+        <property name="password" value="${db.jdbcPassword}"/>
+        <property name="initialPoolSize" value="${db.jdbcInitialPoolSize}"/>
+        <property name="maxPoolSize" value="${db.jdbcMaxPoolSize}"/>
+        <property name="minPoolSize" value="${db.jdbcMinPoolSize}"/>
+        <property name="maxIdleTime" value="${db.jdbcMaxIdleTime}"/>
+        <property name="acquireIncrement" value="${db.acquireIncrement}"/>
+        <property name="checkoutTimeout" value="${db.checkoutTimeout}"/>
 
     </bean>
     <!-- 配置事务管理器 -->
