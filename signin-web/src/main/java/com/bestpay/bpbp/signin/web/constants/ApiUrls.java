@@ -50,7 +50,9 @@ public class ApiUrls {
     /**修改密码 url*/
     public static final String UPDATE_PASSWORD_URL       = "/employee/updatePassword";
     /**删除员工信息接口 url*/
-    public static final String DELETE_EMPLOYEE_URL       = "/employee/deleteEmployee";
+    public static final String DELETE_EMPLOYEE_URL      = "/employee/deleteEmployee";
+    /**重置员工登录密码信息接口 url*/
+    public static final String RESET_PASSWORD_URL      = "/employee/resetPassword";
     /**检查员工信息是否存在接口 url*/
     public static final String CHECK_EMPLOYEE_URL       = "/employee/checkEmployee";
 

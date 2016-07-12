@@ -94,7 +94,13 @@ public class EmployeeManager {
     public void updateEmployee(Employee employee)throws Exception{
         employeeMapper.updateEmployee(employee);
     }
-
+    /**
+     * 重置用户登录密码
+     * @param employee
+     */
+     public void resetPassword(Employee employee)throws Exception{
+         employeeMapper.resetPassword(employee);
+     }
     /**
      * 查询通讯录信息
      * @param map

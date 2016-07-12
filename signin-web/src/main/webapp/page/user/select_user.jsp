@@ -15,23 +15,17 @@
     <script type="text/javascript" src="<%=path%>/resources/js/select-ui.min.js"></script>
     <script type="text/javascript" src="<%=path%>/resources/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="<%=path%>/resources/js/jquery.pagination.js"></script>
+    <script src="<%=path%>/resources/js/jquery.validate.js" language="JavaScript"></script>
+    <script type="text/javascript" src="<%=path%>/resources/js/MD5.js"></script>
     <script type="text/javascript">
         $(function () {
             userList();
-//            var GlobelVaribe_pageNo;
-//            var GlobelVaribe_total;
-
-            $("#News-Pagination").pagination(${list.total}, {
-                items_per_page: 10, // 每页显示多少条记录
-                current_page: ${list.pageNo}-1, // 当前显示第几页数据
-                num_display_entries: 3, // 分页显示的条目数
-                next_text: "下一页",
-                prev_text: "上一页",
-                num_edge_entries: 2, // 连接分页主体，显示的条目数
-                callback: handlePaginationClick
-            });
         });
+
         function handlePaginationClick(new_page_index, pagination_container) {
+            var username = $("#username").val();
+            var phone = $("#phone").val();
+
             $("#allUsers").html("");
             $(".pagin").html("");
             var page = new_page_index + 1;
@@ -39,14 +33,9 @@
                 type: "post",
                 url: "<%=path%>/employee/list.do",
                 dataType: "json",
-                data: {"pageNo":page},
+                data: {"pageNo": page, "name": username, "phone": phone},
                 success: function (msg) {
                     $.each(msg.result.lists, function (index, n) {
-
-                        if(msg.result){
-                            GlobelVaribe_pageNo = msg.result.pageNo;
-                            GlobelVaribe_total = msg.result.pageNo;
-                        }
 
                         if (msg.type == "error") {
                             alert(msg.info);
@@ -60,25 +49,18 @@
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
                                     "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
-                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></form></td>");
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
+
                     $(".pagin").append(
                             "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;<i class='blue'>" + msg.result.pageNo + "&nbsp;</i>页</div>" +
                             "<input id='total' type='hidden' value='" + msg.result.total + "'/>"
                     );
-
                 }
             });
         }
-        function reset(emloyeeId) {
-            if (confirm("确定要重置密码吗？")) {
-                var rs=document.getElementById('oldPassword');
-                rs.value="000000";
-            } else {
-                return false;
-            }
-        }
+
         function del(employeeId) {
             if (confirm("确定要删除吗？")) {
                 //如果选择是，返回true ，那么就把页面转向指定链接
@@ -97,19 +79,48 @@
                     }
                 }
             });
-        };
+        }
+        function reset(employeeId) {
+            if (confirm("确定要重置密码吗？")) {
+                //如果选择是，返回true ，那么就把页面转向指定链接
+            } else {
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "<%=path%>/employee/resetPassword.do",
+                data: {"employeeId": employeeId},
+                success: function (msg) {
+                    userList();
+                    if (msg.type == "error") {
+                        alert(msg.info);
+                    }
+                }
+            });
+        }
         function userList() {
-            var username = $("#username").val();
-            var phone = $("#phone").val();
             //清空上次查询记录
             $("#allUsers").html("");
             $(".pagin").html("");
+            var username = $("#username").val();
+            var phone = $("#phone").val();
+
             $.ajax({
                 type: "post",
                 url: "<%=path%>/employee/list.do",
                 dataType: "json",
                 data: {"name": username, "phone": phone},
                 success: function (msg) {
+                    $("#News-Pagination").pagination(msg.result.total, {
+                        items_per_page: 10, // 每页显示多少条记录
+                        current_page: msg.result.pageNo-1, // 当前显示第几页数据
+                        num_display_entries: 3, // 分页显示的条目数
+                        next_text: "下一页",
+                        prev_text: "上一页",
+                        num_edge_entries: 2, // 连接分页主体，显示的条目数
+                        callback: handlePaginationClick
+                    });
                     $.each(msg.result.lists, function (index, n) {
                         if (msg.type == "error") {
                             alert(msg.info);
@@ -124,7 +135,7 @@
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
                                     "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
-                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></form></td>");
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
                     $(".pagin").append(
@@ -134,47 +145,7 @@
 
                 }
             });
-            //按参数查询
-            $("#selBut").click(function () {
-                var username = $("#username").val();
-                var phone = $("#phone").val();
-                //清空上次查询记录
-                $("#allUsers").html("");
-                $(".pagin").html("");
-                $.ajax({
-                    type: "post",
-                    url: "<%=path%>/employee/list.do",
-                    dataType: "json",
-                    data: {"name": username, "phone": phone},
-                    success: function (msg) {
-                        $.each(msg.result.lists, function (index, n) {
-                            if (msg.type == "error") {
-                                alert(msg.info);
-                            }
-                            else {
-                                $("#allUsers").append(
-                                        "<tr>" +
-                                        "<td>" + n.employeeId + "</td>" +
-                                        "<td>" + n.name + "</td>" +
-                                        "<td>" + n.phone + "</td>" +
-                                        "<td>" + n.qq + "</td>" +
-                                        "<td>" + n.email + "</td>" +
-                                        "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
-                                        " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
-                                        "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit'  style='cursor:pointer' value='修改 '>" +
-                                        "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></form></td>");
-
-                            }
-                        });
-                        $(".pagin").append(
-                                "<div class='message'>共<i class='blue'>&nbsp;" + msg.result.total + "&nbsp;</i>条记录，当前显示第&nbsp;<i class='blue'>" + msg.result.pageNo + "&nbsp;</i>页</div>" +
-                                "<input id='total' type='hidden' value='" + msg.result.total + "'/>"
-                        );
-                    }
-                });
-            });
-
-        };
+        }
     </script>
 
 </head>
@@ -194,7 +165,7 @@
                 <li><label>员工姓名：</label><input id="username" name="" type="text" class="scinput"/></li>
                 <li><label>员工电话：</label><input id="phone" name="" type="text" class="scinput"/></li>
                 <input type="text" id="total2"/>
-                <li><label>&nbsp;</label><input id="selBut" name="" type="button" class="scbtn" value="查询"/></li>
+                <li><label>&nbsp;</label><input id="selBut" onclick="userList()" type="button" class="scbtn" value="查询"/></li>
             </ul>
             <table class="tablelist">
                 <thead>

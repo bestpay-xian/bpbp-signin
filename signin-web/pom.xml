@@ -103,9 +103,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <filters>
-            <filter>src/main/resources/properties/jdbc-${env}.properties</filter>
-        </filters>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -117,52 +114,53 @@
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
                 <configuration>
-                    <outputDirectory>${basedir}/target</outputDirectory>
-                    <warName>${project.build.finalName}-${env}</warName>
-                    <webResources>
-                        <resource>
-                            <directory>${basedir}/src/main/webapp</directory>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <manifestEntries>
-                            <timestamp>${maven.build.timestamp}</timestamp>
-                        </manifestEntries>
-                    </archive>
+                    <outputDirectory>${basedir}/../target</outputDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.alibaba.citrus.tool</groupId>
+                <artifactId>autoconfig-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>autoconfig</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <!--本地环境-->
-            <id>dev</id>
-            <properties>
-                <env>dev</env>
-                <log-encoding>UTF-8</log-encoding>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <!--测试环境-->
-        <profile>
-            <id>test</id>
-            <properties>
-                <env>test</env>
-                <log-encoding>UTF-8</log-encoding>
-            </properties>
-        </profile>
-        <!--生产环境-->
-        <profile>
-            <id>product</id>
-            <properties>
-                <env>product</env>
-                <log-encoding>UTF-8</log-encoding>
-            </properties>
-        </profile>
-    </profiles>
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--&lt;!&ndash;本地环境&ndash;&gt;-->
+            <!--<id>dev</id>-->
+            <!--<properties>-->
+                <!--<env>dev</env>-->
+                <!--<log-encoding>UTF-8</log-encoding>-->
+            <!--</properties>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+            <!--</activation>-->
+        <!--</profile>-->
+        <!--&lt;!&ndash;测试环境&ndash;&gt;-->
+        <!--<profile>-->
+            <!--<id>test</id>-->
+            <!--<properties>-->
+                <!--<env>test</env>-->
+                <!--<log-encoding>UTF-8</log-encoding>-->
+            <!--</properties>-->
+        <!--</profile>-->
+        <!--&lt;!&ndash;生产环境&ndash;&gt;-->
+        <!--<profile>-->
+            <!--<id>product</id>-->
+            <!--<properties>-->
+                <!--<env>product</env>-->
+                <!--<log-encoding>UTF-8</log-encoding>-->
+            <!--</properties>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 </project>

@@ -115,6 +115,15 @@ public class EmployeeService {
     }
 
     /**
+     * 重置用户登录密码
+     * @param
+     * @throws Exception
+     */
+    public void resetPassword(Employee employee)throws Exception{
+        employeeManager.resetPassword(employee);
+            }
+
+    /**
      * 查询通讯录信息
      * @param employee
      * @return List<Map<String,Object>> 所有与员工关联信息
