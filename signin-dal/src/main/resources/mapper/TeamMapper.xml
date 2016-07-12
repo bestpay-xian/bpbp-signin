@@ -60,13 +60,24 @@
         </if>
         <!--update Search-->
         <if test="teamId != null and teamId != 0 and teamId != '' and centerId != 0 and centerId != ''">
-            AND t.pk_team  = #{teamId}
+            AND t.pk_team = #{teamId}
         </if>
 
     </sql>
 
     <update id="updateTeamInfoByPrimaryKey" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
-        update T_TEAM  t set t.teamname = #{teamName}
+
+        update T_TEAM  t
+        <set>
+            <trim suffixOverrides=",">
+        <if test="teamName != null and teamName != ''">
+            t.teamname = #{teamName,jdbcType=VARCHAR},
+        </if>
+        <if test="centerId != null and centerId != ''">
+             t.fk_center = #{centerId},
+        </if>
+            </trim>
+        </set>
         where t.pk_team = #{teamId}
     </update>
 

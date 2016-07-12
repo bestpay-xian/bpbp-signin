@@ -28,15 +28,17 @@
         addOpionChange1();
         sub();
     });
-    function addOpionChange1(){
-        $("#selectCenter").change(function(){
-            var centerName=$("#selectCenter  option:selected").val();
-            var centerId= $("#selectCenter  option:selected").prev().val();
+    function addOpionChange1() {
 
-                $("#centerId").attr("value",centerId);
-                $("#centerName").attr("value",centerName);
-
+        $("#selectCenter").change(function () {
+            var centerName = $("#selectCenter  option:selected").val();
+            if (centerName!="-请选择中心-") {
+                var centerId = $("#selectCenter  option:selected").prev().val();
+                $("#centerId").attr("value", centerId);
+                $("#centerName").attr("value", centerName);
+            }
         });
+
     }
     function sub() {
         $("#formId").submit(function (e) {
@@ -44,7 +46,6 @@
             var centerId=$("#centerId").val();
             var teamName=$("#teamName").val();
             var teamId=$("#teamId").val();
-            alert(teamId);
             if(teamName==null || teamName=="" ||teamName==undefined){
                 alert("请填写团队名称")
                 return false;
@@ -113,7 +114,6 @@
                         }else{
                             $.each(msg.result, function (index, jsonObj) {
                                 $("#selectCenter").append("<input type='hidden'  value='"+jsonObj.centerId+"'>"+ "<option>"+jsonObj.centerName+"</option>");
-
                             });
                             $("#selectCenter").find("option[index='0']").prop("selected",'selected');
                         }
@@ -143,7 +143,6 @@
   <div class="formtitle"><span>基本信息</span></div>
   <form action="<%=path%>/team/update.do" id="formId" method="post">
     <ul class="forminfo">
-      <li><input name="centerId" type="hidden" class="dfinput"   value="${requestScope.team.centerId}"/></li>
         <li><label>部门</label>
 
             <div class="vocation">
@@ -160,7 +159,7 @@
                 </select>
             </div>
         </li>
-        <input name="centerId"  id="centerId" type="hidden" class="dfinput" value="${requestScope.team.centerId}" disabled="disabled" ></li></br>
+        <input name="centerId"  id="centerId" type="text" class="dfinput" value="${requestScope.team.centerId}" ></li></br>
         <li><label>所属中心 </label><input name="centerName" type="text" id="centerName" class="dfinput" value="${requestScope.team.centerName}" disabled="disabled"/></li>
         <br>
        <li><input name="teamId" type="hidden" id="teamId" class="dfinput" value="${requestScope.team.teamId}"/></li>
