@@ -24,11 +24,9 @@
             $(".select3").uedSelect({
                 width: 100
             });
-            validate1();
             selectdept();
-//            sub();
             addOpionChange();
-
+            sub();
         });
 
         function selectdept(){
@@ -44,44 +42,11 @@
                         $.each(msg.result.lists, function (index, teamObj) {
                             $("#selectdept").append("<input type='hidden' value='"+teamObj.deptId+"'>"+ "<option>"+teamObj.deptName+"</option>");
                         });
-//"<option  onchange='chaose(\""+teamObj.deptName+ "\")'>"+teamObj.deptName+"</option>"
                     }
                 }
             });
         }
 
-//        function chaose(){
-//            $("#deptName").val( $("#selectdept :selected").val());
-//        }
-        function validate1() {
-            $("#formId").validate({
-                rules: {
-                    centerName: {
-                        required: true,
-                        remote: {
-                            type: "post",
-                            dataType: "json",
-                            url: "<%=path%>/center/validateCenterIsExist.do",
-                            data: {
-                                name: function () {
-                                    return $("input[name='centerName']").val();
-                                }
-                            }
-                        }
-
-                    }
-                },
-                messages: {
-                    centerName: {
-                        required: "中心名称不能为空！",
-                        remote: "中心名称已存在"
-                    }
-                },
-                submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
-                    form.submit();   //提交表单
-                }
-            });
-        }
         function addOpionChange(){
                $("#selectdept").change(function(){
                    var deptName=$("#selectdept  option:selected").val();
@@ -93,77 +58,37 @@
                }
                });
         }
-//        function sub() {
-//            $("#formId").submit(function (e) {
+        function sub() {
+            $("#formId").submit(function (e) {
+                var centerName=$.trim($("#centerName").val());
+                var deptId=$("#deptId").val();
+                var centerId=$("#centerId").val();
+                if(centerName==null || centerName=="" ||centerName==undefined){
+                    alert("请填写中心名称")
+                    return false;
+                }
+                var flag=true;
+                $.ajax({
+                    type:"post",
+                    url:"<%=path%>/center/validateCenterIsExist.do",
+                    dataType:"json",
+                    async: false,
+                    data:{
+                        centerName:centerName,
+                        deptId:deptId,
+                        centerId:centerId
+                    },
+                    success:function(msg) {
+                        if(msg=="NOTEXSTER"){
+                            flag=false;
+                            alert("中心已存在");
+                        }
+                    }
+                });
+                return flag;
+            });
+        }
 
-                <%--//验证中心号重复--%>
-                <%--var select = $("#selectdept  option:selected").val();--%>
-                <%--if (select === "请选择部门") {--%>
-                <%--var deptId =$("#deptId").attr("value").val();--%>
-                <%--var centerName=$("#centerName").attr("value").val();--%>
-                <%--var centerId=$("#centerId").attr("value").val();--%>
-
-                <%--$.ajax({--%>
-                <%--type: "post",--%>
-                <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
-                <%--dataType: "json",--%>
-                <%--date: {--%>
-                <%--"deptId":deptId,--%>
-                <%--"centerName":centerName,--%>
-                <%--"centerId":centerId--%>
-                <%--},--%>
-                <%--success: function (msg) {--%>
-                <%--if (msg.info == "验证失败") {--%>
-                <%--alert(msg.info);--%>
-                <%--return;--%>
-                <%--}--%>
-                <%--if(msg.result=="CENTRNOTLLNOLL"){--%>
-                <%--alert("中心号已存在");--%>
-                <%--return;--%>
-                <%--}--%>
-                <%--}--%>
-
-                <%--});--%>
-                <%--}--%>
-                <%--else{--%>
-                <%--var deptId= $("#selectdept  option:selected").next().val();--%>
-                <%--var centerName=$("#centerName").attr("value").val();--%>
-                <%--var centerId=$("#centerId").attr("value").val();--%>
-                <%--$.ajax({--%>
-                <%--type: "post",--%>
-                <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
-                <%--dataType: "json",--%>
-                <%--date: {--%>
-                <%--"deptId":deptId,--%>
-                <%--"centerName":centerName,--%>
-                <%--"centerId":centerId--%>
-                <%--},--%>
-                <%--success: function (msg) {--%>
-                <%--if (msg.info == "验证失败") {--%>
-                <%--alert(msg.info);--%>
-                <%--return;--%>
-                <%--}--%>
-                <%--if(msg.result=="CENTRNOTLLNOLL"){--%>
-                <%--alert("中心号已存在");--%>
-                <%--return;--%>
-                <%--}--%>
-                <%--}--%>
-
-                <%--});--%>
-                <%--}--%>
-                //
-//                var select=$("#selectdept  option:selected").val();
-//                if(select=="请选择部门"){
-//
-//                }else{
-//                    var deptId= $("#selectdept  option:selected").prev().val();
-//                    $("#deptId").attr("value",deptId);
-//                    var deptName=$("#selectdept  option:selected").val();
-//                    $("#deptName").attr("value",deptName);
-//                }
-//
-//            });
-//        }
     </script>
 </head>
 <body>
@@ -197,7 +122,7 @@
             <li><input name="deptId" id="deptId" type="hidden" class="dfinput" value="${requestScope.center.deptId}"/></li>
             <br>
             <li><input name="centerId" id="centerId" type="hidden" class="dfinput" value="${requestScope.center.centerId}"/></li>
-            <li><label>中心名称:  </label><input name="centerName" type="text" class="dfinput" value="${requestScope.center.centerName}" /></li>
+            <li><label>中心名称:  </label><input name="centerName"  id="centerName"type="text" class="dfinput" value="${requestScope.center.centerName}" /></li>
             <br>
             <li><label>&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input value="提交" type="submit" class="btn" /></li>
             </li>

@@ -9,23 +9,33 @@
         <result column="centername" property="centerName" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-      pk_team,teamname,fk_center
+      pk_team,teamname,fk_center,
     </sql>
-
+     <sql id="queryList">
+           pk_team,teamname,fk_center,centername,deptName
+     </sql>
     <!--新增小组表记录-->
     <insert id="insertTeamInfo" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
         INSERT INTO T_TEAM (teamname, fk_center)
         VALUES (#{teamName,jdbcType=VARCHAR}, #{centerId,jdbcType=INTEGER})
     </insert>
 
+    <resultMap id="BaseResultMapforDept" type="com.bestpay.bpbp.signin.dal.models.Team">
+        <id column="pk_team" property="teamId" jdbcType="INTEGER"/>
+        <result column="teamname" property="teamName" jdbcType="VARCHAR"/>
+        <result column="fk_center" property="centerId" jdbcType="VARCHAR"/>
+        <result column="centername" property="centerName" jdbcType="VARCHAR"/>
+        <result column="deptname" property="deptName" jdbcType="VARCHAR"/>
+    </resultMap>
     <!--查询所有小组信息-->
-    <select id="selectAllTeamInfo" resultMap="BaseResultMap" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
+    <select id="selectAllTeamInfo" resultMap="BaseResultMapforDept" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
         SELECT
-        <include refid="Base_Column_List"/>
-        , c.centername
-        FROM T_TEAM t , T_CENTER c
+        <include refid="queryList"/>
+        FROM T_TEAM t , T_CENTER c,T_DEPT d
         where 1= 1
         and  t.fk_center = c.pk_center_id
+        and  c.fk_dept=d.pk_deptid
+        and d.is_delete = 1
         <include refid="query_where"/>
         ORDER BY t.pk_team LIMIT #{pageNo},#{rowNum}
     </select>
@@ -33,9 +43,11 @@
     <select id="selectAllTeamCount" resultType="java.lang.Long" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
         SELECT
         COUNT(1)
-        FROM T_TEAM t , T_CENTER c
+        FROM T_TEAM t , T_CENTER c,T_DEPT d
         where 1= 1
         and  t.fk_center = c.pk_center_id
+        and  c.fk_dept=d.pk_deptid
+        and d.is_delete = 1
         <include refid="query_where"/>
     </select>
 
@@ -63,5 +75,22 @@
         where t.pk_team = #{teamId}
     </delete>
 
-
+    <select id="validateTeam" resultType="java.lang.Long" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
+        SELECT
+        COUNT(1)
+        FROM T_TEAM t , T_CENTER c
+        where 1= 1
+        and  t.fk_center = c.pk_center_id
+        <if test="teamId != null and teamId != ''">
+            AND t.pk_team != #{teamId,jdbcType=VARCHAR}
+        </if>
+        <if test="teamName != null and teamName != ''">
+            AND t.teamname = #{teamName,jdbcType=VARCHAR}
+        </if>
+        <if test="centerId != null and centerId != ''">
+            AND t.fk_center = #{centerId,jdbcType=VARCHAR}
+        </if>
+        AND
+        t.IS_DELETE != 2
+    </select>
 </mapper>

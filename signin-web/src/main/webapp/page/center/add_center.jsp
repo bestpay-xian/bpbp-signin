@@ -25,13 +25,11 @@
         width: 100
       });
 
-      validate1();
       selectCenter();
-
-
+      addOpionChange();
+      sub();
     });
     function selectCenter(){
-      //$("#selectCentr").
       $.ajax({
         type:"post",
         url:"<%=path%>/dept/list.do",
@@ -41,44 +39,55 @@
             alert(msg.info);
           }else{
             $.each(msg.result.lists, function (index, jsonObj) {
-              $("#selectDept").append("<option value='"+jsonObj.deptId+"'>"+jsonObj.deptName+"</option>");
+              $("#selectDept").append("<input type='hidden' value='"+jsonObj.deptId+"'>"+ "<option>"+jsonObj.deptName+"</option>");
             });
 
           }
         }
       });
     }
-    <%--function validate1() {--%>
-      <%--$("#formId").validate({--%>
-        <%--rules: {--%>
-          <%--centerName: {--%>
-            <%--required: true,--%>
-            <%--remote: {--%>
-              <%--type: "post",--%>
-              <%--dataType: "json",--%>
-              <%--url: "<%=path%>/center/validateCenterIsExist.do",--%>
-              <%--data: {--%>
-                <%--name: function () {--%>
-                  <%--return $("input[name='centerName']").val();--%>
-                <%--}--%>
-              <%--}--%>
-            <%--}--%>
-
-          <%--}--%>
-        <%--},--%>
-        <%--messages: {--%>
-
-
-          <%--centerName: {--%>
-            <%--required: "中心名不能为空！",--%>
-            <%--remote: "中心名已存在"--%>
-          <%--}--%>
-        <%--},--%>
-        <%--submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form--%>
-          <%--form.submit();   //提交表单--%>
-        <%--}--%>
-      <%--});--%>
-    <%--}--%>
+    function addOpionChange(){
+      $("#selectDept").change(function(){
+        var deptName=$("#selectDept  option:selected").val();
+        var deptId = $("#selectDept  option:selected").prev().val();
+        if(deptName!="-请选择部门-") {
+          $("#deptId").attr("value", deptId);
+        }
+      });
+    }
+    function sub() {
+      $("#formId").submit(function (e) {
+        var Dept = $("#selectDept  option:selected").val();
+        var deptId = $("#selectDept  option:selected").prev().val();
+        if (Dept == "-请选择部门-") {
+          alert("请选择部门")
+          return false;
+        }
+        var centerName=$.trim($("#centerName").val());
+        if(centerName == null || centerName == "" || centerName == undefined) {
+          alert("请填写中心名称")
+          return false;
+        }
+        var flag=true;
+        $.ajax({
+          type:"post",
+          url:"<%=path%>/center/validateCenterIsExist.do",
+          dataType:"json",
+          async: false,
+          data:{
+            centerName:centerName,
+            deptId:deptId
+          },
+          success:function(msg) {
+            if(msg=="NOTEXSTER"){
+             flag=false;
+              alert("小组已存在");
+            }
+          }
+        });
+        return flag;
+      });
+    }
   </script>
 </head>
 
@@ -98,12 +107,14 @@
     <ul class="forminfo">
       <li><label>部门</label>
         <div class="vocation">
-        <select id="selectDept"  class="select2" name="deptId">
+        <select id="selectDept"  class="select2" >
+          <option>-请选择部门-</option>
         </select>
         </div>
       </li>
+      <input name="deptId" id="deptId" type="hidden" class="dfinput"  value=""/></li></br>
       <li><label>中心</label>
-        <input name="centerName" type="text" class="dfinput" ></li></br>
+        <input name="centerName" id="centerName"type="text" class="dfinput" ></li></br>
       <li><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input  type="submit" class="btn" value="确认添加"/></li>
     </ul>
     <c:if test="${requestScope.msg!=null &&requestScope.msg!=''}">

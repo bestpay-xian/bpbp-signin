@@ -41,5 +41,8 @@ public class Team implements Serializable{
      * 删除标记
      */
     private int deleteFlag;
-
+    /**
+     * 部门名称
+     */
+     private String deptName;
 }

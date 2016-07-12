@@ -66,4 +66,12 @@ public class TeamService {
     public int updateTeamInfo(Team team) throws Exception {
         return teamManager.updateTeamInfoByPrimaryKey(team);
     }
+
+    public String validateTeam(Team team) throws Exception{
+               Long count=teamManager.validateTeam(team);
+        if(count>0){
+            return "HASTEAM";
+        }
+        return "NOTHASTAM";
+    }
 }
