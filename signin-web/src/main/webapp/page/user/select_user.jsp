@@ -15,6 +15,8 @@
     <script type="text/javascript" src="<%=path%>/resources/js/select-ui.min.js"></script>
     <script type="text/javascript" src="<%=path%>/resources/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="<%=path%>/resources/js/jquery.pagination.js"></script>
+    <script src="<%=path%>/resources/js/jquery.validate.js" language="JavaScript"></script>
+    <script type="text/javascript" src="<%=path%>/resources/js/MD5.js"></script>
     <script type="text/javascript">
         $(function () {
             userList();
@@ -46,7 +48,8 @@
                                     "<td>" + n.email + "</td>" +
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
-                                    "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '></form></td>");
+                                    "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
 
@@ -77,12 +80,29 @@
                 }
             });
         }
-
+        function reset(employeeId) {
+            if (confirm("确定要重置密码吗？")) {
+                //如果选择是，返回true ，那么就把页面转向指定链接
+            } else {
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "<%=path%>/employee/resetPassword.do",
+                data: {"employeeId": employeeId},
+                success: function (msg) {
+                    userList();
+                    if (msg.type == "error") {
+                        alert(msg.info);
+                    }
+                }
+            });
+        }
         function userList() {
             //清空上次查询记录
             $("#allUsers").html("");
             $(".pagin").html("");
-
             var username = $("#username").val();
             var phone = $("#phone").val();
 
@@ -114,7 +134,8 @@
                                     "<td>" + n.email + "</td>" +
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
-                                    "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '></form></td>");
+                                    "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
                     $(".pagin").append(
@@ -156,6 +177,7 @@
                     <th>员工邮箱</th>
                     <th>删除</th>
                     <th>详情</th>
+                    <th>重置密码</th>
                 </tr>
                 </thead>
                 <tbody id="allUsers">

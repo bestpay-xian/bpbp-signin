@@ -197,7 +197,22 @@ public class EmployeeController {
             return Message.errorRst("删除用户失败");
         }
     }
-
+    /**
+     * 重置用户密码
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value=ApiUrls.RESET_PASSWORD_URL,method = RequestMethod.POST)
+    public Message resetPassword(Employee employee){
+        log.info("用户管理-密码重置入参:{}",employee);
+        try {
+            employeeService.resetPassword(employee);
+            return Message.successRst("重置密码成功");
+        } catch (Exception e) {
+            log.error("用户管理-重置密码错误:{}",e);
+            return Message.errorRst("重置密码失败");
+        }
+    }
     /**
      * 检查信息是否存在
      * @param employee

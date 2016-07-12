@@ -17,7 +17,7 @@
     <script type="text/javascript">
         //操作确认函数
         function firm(title) {//利用对话框返回的值（true 或者 false）
-            if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
+            if (confirm("确定要提交此操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
                 return true;
             }
             else {//否则返回false

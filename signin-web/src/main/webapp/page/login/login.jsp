@@ -15,7 +15,6 @@
     <script src="<%=path%>/resources/js/messages_cn.js" language="JavaScript"></script>
     <script src="<%=path%>/resources/js/cloud.js" type="text/javascript"></script>
     <script type="text/javascript" src="<%=path%>/resources/js/MD5.js"></script>
-
     <script>
         $(function(){
             $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});

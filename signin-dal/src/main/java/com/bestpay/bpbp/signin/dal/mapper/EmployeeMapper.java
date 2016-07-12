@@ -72,7 +72,13 @@ public interface EmployeeMapper {
      * @throws SQLException
      */
     public void deleteEmployee(int employeeId) throws SQLException;
-
+    /**
+     * 重置用户登录密码
+     *
+     * @param employee
+     * @throws SQLException
+     */
+    public void resetPassword(Employee employee)throws SQLException;
     /**
      * 通讯录信息查看,分页
      */

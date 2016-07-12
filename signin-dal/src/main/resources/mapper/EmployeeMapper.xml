@@ -134,8 +134,6 @@
         from T_EMPLOYEE t WHERE  1=1
         <if test="qq !=null and qq !=0 ">
             and t.qq=#{qq}
-        </if><if test="qq !=null and qq !=0 ">
-            and t.qq=#{qq}
         </if>
         <if test="email !=null and email !=''">
             and t.email=#{email}
@@ -195,7 +193,7 @@
     <insert id="insertEmployee" keyProperty="pk_employee" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
         insert into T_EMPLOYEE (name,phone,qq,email,password,is_admin,fk_platform)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            #{name},#{phone},#{qq},#{email},#{password},#{isAdmin},#{platformId},#{teamId},
+            #{name},#{phone},#{qq},#{email},#{password},#{isAdmin},#{platformId},
         </trim>
     </insert>
 
@@ -233,6 +231,14 @@
         update T_EMPLOYEE t
         <set>
             t.is_delete = 2
+        </set>
+        where t.pk_employee=#{employeeId}
+    </update>
+    <!-- 重置用户登录密码  -->
+    <update id="resetPassword" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
+        update T_EMPLOYEE t
+        <set>
+            t.password ='000000',
         </set>
         where t.pk_employee=#{employeeId}
     </update>
