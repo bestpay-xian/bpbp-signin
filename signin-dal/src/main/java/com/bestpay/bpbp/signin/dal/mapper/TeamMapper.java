@@ -54,4 +54,5 @@ public interface TeamMapper {
    int updateTeamInfoByPrimaryKey(Team team)  throws SQLException;
 
 
+    Long validateTeam(Team team) throws SQLException;
 }

@@ -50,7 +50,7 @@
                   else {
                       $("#addTeam").append(
                               "<tr>" +
-                              "<td>" + teamObj.teamId + "</td>" +
+                              "<td>" + teamObj.deptName + "</td>" +
                               "<td>" + teamObj.centerName + "</td>" +
                               "<td>" + teamObj.teamName + "</td>" +
                               "<td onclick='del(\"" + teamObj.teamId + "\")'>" + "<font style='cursor:pointer'>删除</font>" + "</td>" +
@@ -86,7 +86,8 @@
                   $.each(msg.result.lists,function (index, teamObj) {
                       $("#addTeam").append(
                               "<tr>"+
-                              "<td>"+teamObj.teamId+"</td>"+
+//                              "<td>"+teamObj.teamId+"</td>"+
+                              "<td>"+teamObj.deptName+"</td>"+
                               "<td>"+teamObj.centerName+"</td>"+
                               "<td>"+teamObj.teamName+"</td>"+
                               "<td onclick='del(\""+teamObj.teamId+ "\")'>"+"<font style='cursor:pointer'>删除</font>"+"</td>"+
@@ -160,9 +161,9 @@
       <table class="tablelist">
         <thead id="headBussessin">
         <tr>
-          <th>团队号</th>
-          <th>团队所属中心</th>
-          <th>团队名称</th>
+          <th>部门</th>
+          <th>中心</th>
+          <th>团队</th>
           <th>删除</th>
           <th>修改</th>
         </tr>

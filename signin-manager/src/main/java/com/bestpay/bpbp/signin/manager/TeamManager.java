@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +71,13 @@ public class TeamManager {
     public int updateTeamInfoByPrimaryKey(Team team) throws Exception{
         return teamMapper.updateTeamInfoByPrimaryKey(team);
     }
+
+
+
+   public Long validateTeam(Team team) throws Exception{
+
+       return teamMapper.validateTeam(team);
+    }
+
 
 }

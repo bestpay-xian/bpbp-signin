@@ -163,6 +163,30 @@ public class TeamController {
         }
     }
 
+//    /**
+//     * 验证平台名是否有重复记录
+//     * @param
+//     * @return
+//     */
+//    @ResponseBody
+//    @RequestMapping(value = ApiUrls.VALIDATE_TEAMNAME_ISEXIST_URL,method = RequestMethod.POST)
+//    public boolean validatTeamIsExist(Team team){
+//        try {
+//            log.info("验证小组名-请求参数{}",team);
+//            boolean isExist = true;//小组表名不存在
+//            Page<List<Team>> pageList = teamService.selectTeamInfoList(team, new Pageable());
+//
+//            if(pageList.getLists() != null && pageList.getLists().size() > 0){
+//                isExist = false;//小组表名存在
+//            }
+//            log.info("验证小组名(true：小组表名不存在，false:小组表名存在){}",isExist);
+//            return isExist;
+//        } catch (Exception e) {
+//            log.error("验证小组名exception{}", e);
+//            return false;
+//        }
+//    }
+
     /**
      * 验证平台名是否有重复记录
      * @param
@@ -170,20 +194,14 @@ public class TeamController {
      */
     @ResponseBody
     @RequestMapping(value = ApiUrls.VALIDATE_TEAMNAME_ISEXIST_URL,method = RequestMethod.POST)
-    public boolean validatTeamIsExist(Team team){
+    public String validatTeamIsExist(Team team){
         try {
             log.info("验证小组名-请求参数{}",team);
-            boolean isExist = true;//小组表名不存在
-            Page<List<Team>> pageList = teamService.selectTeamInfoList(team, new Pageable());
-
-            if(pageList.getLists() != null && pageList.getLists().size() > 0){
-                isExist = false;//小组表名存在
-            }
-            log.info("验证小组名(true：小组表名不存在，false:小组表名存在){}",isExist);
-            return isExist;
+            String str1=teamService.validateTeam(team);
+            return str1;
         } catch (Exception e) {
             log.error("验证小组名exception{}", e);
-            return false;
+            return "Exception";
         }
     }
 
