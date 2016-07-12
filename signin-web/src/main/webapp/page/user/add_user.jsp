@@ -116,27 +116,27 @@
                 },
                 messages: {
                     name: {
-                        required: "员工姓名不能为空",
-                        rangelength: "输入长度在1和 10 之间的字符串"
+                        required: "*员工姓名不能为空",
+                        rangelength: "*输入长度在1和 10 之间的字符串"
                     },
                     phone: {
-                        required: "员工电话不能为空",
-                        remote: "员工电话已存在",
-                        rangelength: "输入长度在 9和 11 之间的整数",
-                        digits: "需要输入整数"
+                        required: "*员工电话不能为空",
+                        remote: "*员工电话已存在",
+                        rangelength: "*输入长度在 9和 11 之间的整数",
+                        digits: "*需要输入整数"
                     },
                     qq: {
-                        required: "员工QQ不能为空",
-                        remote: "员工QQ已存在",
-                        rangelength: "输入长度在 6和 11 之间的整数",
-                        digits: "需要输入整数"
+                        required: "*员工QQ不能为空",
+                        remote: "*员工QQ已存在",
+                        rangelength: "*输入长度在 6和 11 之间的整数",
+                        digits: "*需要输入整数"
                     },
                     email: {
-                        required: "员工邮箱不能为空",
-                        remote: "员工邮箱已存在"
+                        required: "*员工邮箱不能为空",
+                        remote: "*员工邮箱已存在"
                     },
                     password: {
-                        required: "员工密码不能为空"
+                        required: "*员工密码不能为空"
                     }
                 },
                 submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
@@ -165,20 +165,20 @@
         <ul class="forminfo">
             <li><label>员工姓名:</label><input name="name" type="text" class="dfinput" rangelength="1,11" required="true"/>
             </li>
-            <li><label>员工电话:</label><input name="phone" type="text" class="dfinput" rangelength="9,11" required="true"
+            <li><label>员工电话：</label><input name="phone" type="text" class="dfinput" rangelength="9,11" required="true"
                                            digits="true"/></li>
             <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="6,11" required="true"
                                             digits="true"/></li>
-            <li><label>员工邮箱:</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
-            <li><label>员工密码:</label><input id="oldPassword" type="password" class="dfinput" value="000000"
-                                           required:="true"/>初始密码设置为：000000</li>
-            <li><label>所属团队:</label>
+            <li><label>员工邮箱：</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
+            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput" value="000000"
+                                           required="true"/>初始密码设置为：000000</li>
+            <li><label>所属团队：</label>
                 <div class="vocation">
                     <select id="selectIdInfo" class="select2">
                     </select>
                 </div>
             </li>
-            <li><label>所属厂商:</label>
+            <li><label>所属厂商：</label>
                 <div class="vocation">
                     <select id="selectId" class="select2">
                     </select>
