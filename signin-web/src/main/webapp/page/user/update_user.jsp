@@ -23,22 +23,6 @@
     <script src="<%=path%>/resources/js/select-ui.min.js"></script>
     <script >
         $(function () {
-            //请求平台厂商
-            $.ajax({
-                type: "post",
-                url: "<%=path%>/platform/selectPlatformList.do",
-                success: function (msg) {
-                    if(msg.type !='success'){
-                         return false;
-                    }else{
-                        $.each(msg.result,function(i,n){
-                            $("#selectId").append("<option value=\""+ n.platformId+"\">" + n.name+"</option>");
-                        });
-                    }
-
-                    //拼装select
-                }
-            });
             $(".select1").uedSelect({
                 width: 345
             });
