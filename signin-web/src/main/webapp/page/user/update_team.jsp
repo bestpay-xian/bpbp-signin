@@ -159,7 +159,7 @@
                 </select>
             </div>
         </li>
-        <input name="centerId"  id="centerId" type="text" class="dfinput" value="${requestScope.team.centerId}" ></li></br>
+        <input name="centerId"  id="centerId" type="hidden" class="dfinput" value="${requestScope.team.centerId}" ></li></br>
         <li><label>所属中心 </label><input name="centerName" type="text" id="centerName" class="dfinput" value="${requestScope.team.centerName}" disabled="disabled"/></li>
         <br>
        <li><input name="teamId" type="hidden" id="teamId" class="dfinput" value="${requestScope.team.teamId}"/></li>
