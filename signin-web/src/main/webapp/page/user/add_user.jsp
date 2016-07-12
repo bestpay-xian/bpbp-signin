@@ -170,8 +170,8 @@
             <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="6,11" required="true"
                                             digits="true"/></li>
             <li><label>员工邮箱：</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
-            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput" value="000000"
-                                           required="true"/>初始密码设置为：000000</li>
+            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput"
+                                           required="true"/>初始密码建议设置为：000000</li>
             <li><label>所属团队：</label>
                 <div class="vocation">
                     <select id="selectIdInfo" class="select2">
@@ -184,7 +184,7 @@
                     </select>
                 </div>
             </li>
-            <%--<input type="hidden" name="token" value="${token}"/>--%>
+            <input type="hidden" name="token" value="${token}"/>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="save" type="submit" class="btn" value="确认保存"/></li>
         </ul>

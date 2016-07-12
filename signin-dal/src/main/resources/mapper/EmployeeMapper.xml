@@ -134,6 +134,8 @@
         from T_EMPLOYEE t WHERE  1=1
         <if test="qq !=null and qq !=0 ">
             and t.qq=#{qq}
+        </if><if test="qq !=null and qq !=0 ">
+            and t.qq=#{qq}
         </if>
         <if test="email !=null and email !=''">
             and t.email=#{email}
