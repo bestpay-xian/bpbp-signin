@@ -63,7 +63,6 @@
             $(".select3").uedSelect({
                 width: 100
             });
-
             //页面进行各种验证
             $("#formId").validate({
                 rules: {
@@ -170,17 +169,17 @@
             <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="6,11" required="true"
                                             digits="true"/></li>
             <li><label>员工邮箱：</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
-            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput"
-                                           required="true"/>初始密码建议设置为：000000</li>
+            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput" value="000000"
+                                           required="true"/>初始密码已经设置为：000000</li>
             <li><label>所属团队：</label>
                 <div class="vocation">
-                    <select id="selectIdInfo" class="select2">
+                    <select id="selectIdInfo" class="select2" name="team">
                     </select>
                 </div>
             </li>
             <li><label>所属厂商：</label>
                 <div class="vocation">
-                    <select id="selectId" class="select2">
+                    <select id="selectId" class="select2" name="platformId">
                     </select>
                 </div>
             </li>
@@ -188,6 +187,9 @@
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="save" type="submit" class="btn" value="确认保存"/></li>
         </ul>
+        <c:if test="${requestScope.msg!=null &&requestScope.msg!=''}">
+            ${requestScope.msg}
+        </c:if>
     </form>
 
 </div>

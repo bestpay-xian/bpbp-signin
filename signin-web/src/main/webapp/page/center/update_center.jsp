@@ -52,7 +52,6 @@
                    var deptName=$("#selectdept  option:selected").val();
                    var deptId= $("#selectdept  option:selected").prev().val();
                    if(deptId !="undefined"){
-
                   $("#deptId").attr("value",deptId);
                        $("#deptName").attr("value",deptName);
                }

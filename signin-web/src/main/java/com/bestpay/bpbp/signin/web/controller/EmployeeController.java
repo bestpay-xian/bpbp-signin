@@ -203,14 +203,14 @@ public class EmployeeController {
      */
     @ResponseBody
     @RequestMapping(value=ApiUrls.RESET_PASSWORD_URL,method = RequestMethod.POST)
-    public Message resetPassword(Employee employee){
-        log.info("用户管理-密码重置入参:{}",employee);
+    public Message restPassword(Employee employee) {
+        log.info("用户管理-用户登录密码重置入参:{}", employee);
         try {
             employeeService.resetPassword(employee);
-            return Message.successRst("重置密码成功");
+            return Message.successRst("用户登录密码重置成功");
         } catch (Exception e) {
-            log.error("用户管理-重置密码错误:{}",e);
-            return Message.errorRst("重置密码失败");
+            log.error("用户管理-用户登录密码重置失败信息:{}", e);
+            return Message.errorRst("用户登录密码重置失败");
         }
     }
     /**
