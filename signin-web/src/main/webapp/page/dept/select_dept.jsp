@@ -94,6 +94,7 @@
             callback: handlePaginationClick
           });
           $("#addDept").html("");
+          $(".pagin").html("");
           if (msg.type == "error") {
             alert(msg.info);
           } else {

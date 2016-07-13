@@ -78,6 +78,7 @@ public class EmployeeController {
     @RequestMapping(value = ApiUrls.SAVE_EMPLOYEE_URL)
     public String saveEmployee(Model model) {
         log.info("用户管理-新增用户:{}", "跳转到用户新增界面");
+
         try {
             return ApiUrls.ADD_EMPLOYEE_JSP;
         } catch (Exception e) {
@@ -206,6 +207,13 @@ public class EmployeeController {
     public Message restPassword(Employee employee) {
         log.info("用户管理-用户登录密码重置入参:{}", employee);
         try {
+            String encryptUserName = "";
+            if(null != employee.getEmail()){
+                encryptUserName = PassTools.encryptStrinrgByMD5(employee.getEmail());
+            }
+            String finalPasswordForUpdate = encryptUserName + employee.getPassword();
+            employee.setPassword(finalPasswordForUpdate.toUpperCase());
+
             employeeService.resetPassword(employee);
             return Message.successRst("用户登录密码重置成功");
         } catch (Exception e) {

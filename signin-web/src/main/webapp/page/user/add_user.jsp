@@ -187,9 +187,6 @@
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="save" type="submit" class="btn" value="确认保存"/></li>
         </ul>
-        <c:if test="${requestScope.msg!=null &&requestScope.msg!=''}">
-            ${requestScope.msg}
-        </c:if>
     </form>
 
 </div>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
 <%String path = request.getContextPath();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -21,7 +22,6 @@
         $(function () {
             userList();
         });
-
         function handlePaginationClick(new_page_index, pagination_container) {
             var username = $("#username").val();
             var phone = $("#phone").val();
@@ -83,6 +83,9 @@
         function reset(employeeId) {
             if (confirm("确定要重置密码吗？")) {
                 //如果选择是，返回true ，那么就把页面转向指定链接
+                $("#reset").click(function(){
+                    $("#password").val(MD5($(".rspd").val('000000')));
+                });
             } else {
                 return false;
             }
@@ -146,6 +149,7 @@
                 }
             });
         }
+
     </script>
 
 </head>
@@ -177,7 +181,7 @@
                     <th>员工邮箱</th>
                     <th>删除</th>
                     <th>详情</th>
-                    <th>重置密码</th>
+                    <th>重置密码<input  type="hidden" class="rspd" name="password"></th>
                 </tr>
                 </thead>
                 <tbody id="allUsers">
