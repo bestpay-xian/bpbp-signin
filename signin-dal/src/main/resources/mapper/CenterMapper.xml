@@ -9,6 +9,9 @@
         <result column="deptname" property="deptName" jdbcType="VARCHAR"/>
         <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
     </resultMap>
+    <sql id="queryList">
+        t.PK_CENTER_ID,t.CENTERNAME,t.FK_DEPT,t.IS_DELETE
+    </sql>
     <sql id="Base_Column_List">
       t.PK_CENTER_ID,t.CENTERNAME,t.FK_DEPT,t.IS_DELETE,d.DEPTNAME
     </sql>
@@ -99,7 +102,17 @@
         </set>
         WHERE t.PK_CENTER_ID = #{centerId,jdbcType=INTEGER}
     </update>
-
+    <!--查询部门下的中心-->
+    <select id="selectCenterByDeptId" parameterType="com.bestpay.bpbp.signin.dal.models.Center"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="queryList"/>
+        FROM T_CENTER t
+        WHERE 1=1
+        <if test="deptId != null and deptId != ''">
+            AND t.fk_dept = #{deptId}
+        </if>
+        AND t.IS_DELETE != 2
+    </select>
     <!--软删除中心表记录-->
     <update id="deleteCenter" parameterType="com.bestpay.bpbp.signin.dal.models.Center">
         update T_CENTER t

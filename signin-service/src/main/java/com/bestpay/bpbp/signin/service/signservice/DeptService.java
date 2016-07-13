@@ -78,8 +78,9 @@ public class DeptService {
      * @param dept
      * @throws Exception
      */
-    public void deleteDept(int dept) throws Exception{
-        deptManager.deleteDept(dept);
+    public String  deleteDept(Dept dept) throws Exception{
+        String deleteInfo=deptManager.deleteDept(dept);
+        return deleteInfo;
     }
 
     /**
@@ -96,4 +97,5 @@ public class DeptService {
             return true;
         }
     }
+
 }

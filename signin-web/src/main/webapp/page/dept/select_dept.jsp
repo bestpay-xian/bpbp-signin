@@ -59,6 +59,9 @@
     }
     function del(deptId) {
       if (confirm("确定要删除操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
+       }else{
+      return false;
+    }
         $.ajax({
           type: "post",
           dataType: "json",
@@ -66,17 +69,17 @@
           data: {"deptId":deptId},
           success: function (msg) {
             $("#addDept").html("");
+            $(".pagin").html("");
             userList();
             if (msg.type == "error") {
               alert(msg.info);
             }
-
+            if(msg.info=="NOTTHE_DELETE"){
+              alert("此部门存在中心，不能删除")
+              return false;
+            }
           }
         });
-       }else{
-       return false;
-       }
-
     };
     function userList(){
       $.ajax({

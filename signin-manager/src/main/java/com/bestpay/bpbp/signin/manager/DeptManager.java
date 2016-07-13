@@ -1,15 +1,14 @@
 package com.bestpay.bpbp.signin.manager;
 
-import com.bestpay.bpbp.signin.common.Page;
-import com.bestpay.bpbp.signin.common.Pageable;
+import com.bestpay.bpbp.signin.dal.mapper.CenterMapper;
 import com.bestpay.bpbp.signin.dal.mapper.DeptMapper;
-import com.bestpay.bpbp.signin.dal.mapper.PlatformMapper;
+
+import com.bestpay.bpbp.signin.dal.models.Center;
 import com.bestpay.bpbp.signin.dal.models.Dept;
-import com.bestpay.bpbp.signin.dal.models.Platform;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,8 @@ public class DeptManager {
 
     @Autowired
     public DeptMapper deptMapper;
-
+    @Autowired
+    public CenterMapper centerMapper;
     /**
      * 新增部门记录
      * @param dept
@@ -78,8 +78,17 @@ public class DeptManager {
      * 根据主键删除平台表对应记录
      * @param dept
      */
-    public void deleteDept(int dept){
+    public String deleteDept(Dept dept)throws Exception{
+        Center center=new Center();
+        center.setDeptId(dept.getDeptId());
+        List<Center> centerList= centerMapper.selectCenterByDeptId(center);
+        String notDeleteInfo="NOTTHE_DELETE";
+        String DeleteInfo="CANTHE_DELETE";
+        if(!CollectionUtils.isEmpty(centerList)){
+            return notDeleteInfo;
+        }
         deptMapper.deleteDept(dept);
+        return DeleteInfo;
     }
     /**
      * 查询信息是否存在

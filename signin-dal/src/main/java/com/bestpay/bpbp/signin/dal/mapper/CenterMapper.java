@@ -2,6 +2,7 @@ package com.bestpay.bpbp.signin.dal.mapper;
 
 
 import com.bestpay.bpbp.signin.dal.models.Center;
+import com.bestpay.bpbp.signin.dal.models.Team;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -70,5 +71,7 @@ public interface CenterMapper {
 
 
     public List<Center> validateCenter(Center center) throws SQLException;
+
+    List<Center> selectCenterByDeptId(Center center) throws SQLException;
 
 }

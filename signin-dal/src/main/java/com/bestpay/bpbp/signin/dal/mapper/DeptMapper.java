@@ -55,7 +55,7 @@ public interface DeptMapper {
      * 根据主键删除平台表对应记录
      * @param dept
      */
-    public void deleteDept(int dept);
+    public void deleteDept(Dept dept);
     /**
      * 检查部门信息是否存在
      * @param dept

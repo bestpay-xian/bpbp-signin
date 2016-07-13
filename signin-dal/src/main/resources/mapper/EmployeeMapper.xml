@@ -240,7 +240,7 @@
     <update id="resetPassword" parameterType="com.bestpay.bpbp.signin.dal.models.Employee">
         update T_EMPLOYEE t
         <set>
-            t.password ='000000',
+            t.password =#{password}
         </set>
         where t.pk_employee=#{employeeId}
     </update>

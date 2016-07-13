@@ -145,11 +145,11 @@ public class DeptController {
      */
     @ResponseBody
     @RequestMapping(value = ApiUrls.DELETE_DEPT_URL, method = RequestMethod.POST)
-    public Message deleteDept(int deptId) {
-        log.info("部门管理-删除部门入参:{}", deptId);
+    public Message deleteDept(Dept dept) {
+        log.info("部门管理-删除部门入参:{}", dept);
         try {
-            deptService.deleteDept(deptId);
-            return Message.successRst("删除部门成功");
+            String deleteInfo=deptService.deleteDept(dept);
+            return Message.successRst(dept,deleteInfo);
         } catch (Exception e) {
             log.error("部门管理-删除部门错误信息:{}", e);
             return Message.errorRst("删除部门失败");

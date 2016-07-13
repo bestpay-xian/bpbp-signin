@@ -89,7 +89,14 @@ public class DeptManagerTest extends BaseSpringTest {
      */
     @Test
     public void deleteDept(){
-        deptManager.deleteDept(1);
+        try {
+            Dept dept=new Dept();
+            dept.setDeptId(1);
+            deptManager.deleteDept(dept);
+            log.info("删除部门记录成功");
+        } catch (Exception e) {
+            log.info("删除部门记录失败:", e);
+        }
     }
     /**
      * 根据主键删除平台表对应记录

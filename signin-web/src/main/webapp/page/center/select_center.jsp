@@ -116,7 +116,7 @@
   };
   function del(id){
 
-    if (confirm("确定要提的操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
+    if (confirm("确定要删除操作吗？")) {//如果选择是，返回true ，那么就把页面转向指定链接
 
     }else{
       return false;
