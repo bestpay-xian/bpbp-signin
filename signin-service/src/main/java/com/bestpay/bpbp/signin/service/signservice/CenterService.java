@@ -68,8 +68,9 @@ public class CenterService {
      * 根据主键删除中心表记录
      * @param center
      */
-    public void deleteCenter(Center center) throws Exception{
-        centerManager.deleteCenter(center);
+    public String deleteCenter(Center center) throws Exception{
+        String deleteInfo=centerManager.deleteCenter(center);
+        return deleteInfo;
     }
 
 

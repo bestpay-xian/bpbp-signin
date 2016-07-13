@@ -3,6 +3,7 @@ package com.bestpay.bpbp.signin.dal.mapper;
 
 import com.bestpay.bpbp.signin.dal.models.Platform;
 import com.bestpay.bpbp.signin.dal.models.Team;
+import org.apache.ibatis.annotations.Param;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -55,4 +56,6 @@ public interface TeamMapper {
 
 
     Long validateTeam(Team team) throws SQLException;
+
+    List<Team> selectTeamByCenterId(Team team) throws SQLException;
 }

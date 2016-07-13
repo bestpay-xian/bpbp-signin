@@ -187,9 +187,8 @@ public class CenterController {
     public Message deleteCenter(Center center){
         log.info("中心删除-请求参数{},{}",center);
         try {
-            centerService.deleteCenter(center);
-            log.info("中心删除成功");
-            return Message.successRst(center,"删除操作成功");
+           String deleteInfo=centerService.deleteCenter(center);
+            return Message.successRst(center,deleteInfo);
         } catch (Exception e) {
             log.error("中心删除exception{}", e);
             return Message.errorRst(center,"删除操作失败");

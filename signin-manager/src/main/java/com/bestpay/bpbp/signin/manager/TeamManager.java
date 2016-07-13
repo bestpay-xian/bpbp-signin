@@ -75,7 +75,6 @@ public class TeamManager {
 
 
    public Long validateTeam(Team team) throws Exception{
-
        return teamMapper.validateTeam(team);
     }
 
