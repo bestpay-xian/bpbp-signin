@@ -9,7 +9,7 @@
         <result column="centername" property="centerName" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-      pk_team,teamname,fk_center,
+      pk_team,teamname,fk_center
     </sql>
      <sql id="queryList">
            pk_team,teamname,fk_center,centername,deptName
@@ -27,6 +27,17 @@
         <result column="centername" property="centerName" jdbcType="VARCHAR"/>
         <result column="deptname" property="deptName" jdbcType="VARCHAR"/>
     </resultMap>
+    <!--查询中心下小组-->
+    <select id="selectTeamByCenterId" parameterType="com.bestpay.bpbp.signin.dal.models.Team" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM T_TEAM t
+        WHERE 1=1
+        <if test="centerId != null and centerId != ''">
+            AND t.fk_center = #{centerId}
+        </if>
+          AND t.IS_DELETE != 2
+    </select>
     <!--查询所有小组信息-->
     <select id="selectAllTeamInfo" resultMap="BaseResultMapforDept" parameterType="com.bestpay.bpbp.signin.dal.models.Team">
         SELECT

@@ -3,11 +3,14 @@ package com.bestpay.bpbp.signin.manager;
 import com.bestpay.bpbp.signin.common.Page;
 import com.bestpay.bpbp.signin.common.Pageable;
 import com.bestpay.bpbp.signin.dal.mapper.CenterMapper;
+import com.bestpay.bpbp.signin.dal.mapper.TeamMapper;
 import com.bestpay.bpbp.signin.dal.models.Center;
+import com.bestpay.bpbp.signin.dal.models.Team;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +25,10 @@ import java.util.Map;
 @Component
 public class CenterManager {
 
-    /**
-     * center模块CenterManager层注入centerMapper依赖
-     */
+
+    @Autowired
+    private TeamMapper teamMapper;
+
     @Autowired
     public CenterMapper centerMapper;
 
@@ -82,8 +86,17 @@ public class CenterManager {
      * 根据主键删除中心表记录
      * @param center
      */
-    public void deleteCenter(Center center) throws Exception{
+    public String deleteCenter(Center center) throws Exception{
+        Team team=new Team();
+        team.setCenterId(center.getCenterId());
+        List<Team> teamList=teamMapper.selectTeamByCenterId(team);
+        String notDeleteInfo="NOT_DELETE";
+        String DeleteInfo="CAN_DELETE";
+        if(!CollectionUtils.isEmpty(teamList)){
+         return notDeleteInfo;
+        }
         centerMapper.deleteCenter(center);
+        return DeleteInfo;
     }
 
     public List<Center> validateCenter(Center center) throws Exception{

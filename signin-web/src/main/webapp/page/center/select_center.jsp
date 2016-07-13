@@ -135,6 +135,10 @@
         if (msg.type == "error") {
           alert(msg.info);
         }
+          if(msg.info=="NOT_DELETE"){
+              alert("改中心下存在小组，不能删除")
+              return false;
+          }
 
       }
     });
