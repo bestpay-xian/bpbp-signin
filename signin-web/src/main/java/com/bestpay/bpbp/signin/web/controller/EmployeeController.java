@@ -213,8 +213,9 @@ public class EmployeeController {
             }
             String password = "000000";
             String encyptPwd = PassTools.encryptStrinrgByMD5(password);
-            String finalPasswordForUpdate = encryptUserName + encyptPwd;
-            employee.setPassword(finalPasswordForUpdate.toUpperCase());
+            String finalPasswordForUpdate = encryptUserName+encyptPwd;
+            String str=finalPasswordForUpdate;
+            String str1 = str.substring(0,str.length()-1);
 
             employeeService.resetPassword(employee);
             return Message.successRst("用户登录密码重置成功");
