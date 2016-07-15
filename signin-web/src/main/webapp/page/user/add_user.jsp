@@ -169,7 +169,7 @@
             <li><label>员工QQ: </label><input name="qq" type="text" class="dfinput" rangelength="6,11" required="true"
                                             digits="true"/></li>
             <li><label>员工邮箱：</label><input name="email" type="text" class="dfinput" email="true" required="true"/></li>
-            <li><label>员工密码：</label><input id="oldPassword" type="password" class="dfinput" value="000000"
+            <li><label></label><input id="oldPassword" type="hidden" class="dfinput" value="000000"
                                            required="true"/>初始密码已经设置为：000000</li>
             <li><label>所属团队：</label>
                 <div class="vocation">
