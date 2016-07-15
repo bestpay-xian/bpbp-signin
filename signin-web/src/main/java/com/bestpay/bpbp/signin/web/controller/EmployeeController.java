@@ -216,7 +216,7 @@ public class EmployeeController {
             String finalPasswordForUpdate = encryptUserName+encyptPwd;
             String str=finalPasswordForUpdate;
             String str1 = str.substring(0,str.length()-1);
-
+            employee.setPassword(str1.toUpperCase());
             employeeService.resetPassword(employee);
             return Message.successRst("用户登录密码重置成功");
         } catch (Exception e) {
