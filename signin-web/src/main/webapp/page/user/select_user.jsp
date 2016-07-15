@@ -49,7 +49,7 @@
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
                                     "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
-                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\",\"" + n.email + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
 
@@ -80,27 +80,27 @@
                 }
             });
         }
-        function reset(employeeId) {
+        //重值密码
+        function reset(employeeId,email) {
             if (confirm("确定要重置密码吗？")) {
                 //如果选择是，返回true ，那么就把页面转向指定链接
-                $("#reset").click(function(){
-                    $("#password").val(MD5($(".rspd").val('000000')));
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "<%=path%>/employee/resetPassword.do",
+                    data: {"employeeId": employeeId,"email":email},
+                    success: function (msg) {
+                        userList();
+                        if (msg.type == "error") {
+                            alert(msg.info);
+                        }
+                    }
                 });
+                return true;
             } else {
                 return false;
             }
-            $.ajax({
-                type: "post",
-                dataType: "json",
-                url: "<%=path%>/employee/resetPassword.do",
-                data: {"employeeId": employeeId},
-                success: function (msg) {
-                    userList();
-                    if (msg.type == "error") {
-                        alert(msg.info);
-                    }
-                }
-            });
+
         }
         function userList() {
             //清空上次查询记录
@@ -138,7 +138,7 @@
                                     "<id=" + n.employeeId + "><td  onclick='del(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>删除</font></td>" +
                                     " <td >" + "<form action='<%=path%>/employee/editEmployee.do' method='" + "post" + "' >" +
                                     "<input type='hidden' name='employeeId' value='" + n.employeeId + " '><input type='submit' style='cursor:pointer' value='修改 '>" +
-                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
+                                    "<id=" + n.employeeId + "><td  onclick='reset(\"" + n.employeeId + "\",\"" + n.email + "\")'>" + "<font style='cursor:pointer'>重置密码</font></td></form></td>");
                         }
                     });
                     $(".pagin").append(
@@ -181,7 +181,7 @@
                     <th>员工邮箱</th>
                     <th>删除</th>
                     <th>详情</th>
-                    <th>重置密码<input  type="hidden" class="rspd" name="password"></th>
+                    <th>重置密码</th>
                 </tr>
                 </thead>
                 <tbody id="allUsers">
