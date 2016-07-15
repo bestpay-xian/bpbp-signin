@@ -95,7 +95,10 @@ border-width:1px;
                             alert("请填写团队名称")
                             return false;
                         }
-
+                        if(teamName.length>20){
+                            alert("团队名称太长,应保持在10个字符内")
+                            return false;
+                        }
                         var flag=true;
                         $.ajax({
                             type:"post",

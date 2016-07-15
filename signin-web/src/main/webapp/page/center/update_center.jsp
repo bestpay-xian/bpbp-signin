@@ -66,6 +66,10 @@
                     alert("请填写中心名称")
                     return false;
                 }
+                if(centerName.length>20){
+                    alert("中心名称太长,应保持在10个字符内")
+                    return false;
+                }
                 var flag=true;
                 $.ajax({
                     type:"post",
