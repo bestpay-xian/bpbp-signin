@@ -211,7 +211,9 @@ public class EmployeeController {
             if(null != employee.getEmail()){
                 encryptUserName = PassTools.encryptStrinrgByMD5(employee.getEmail());
             }
-            String finalPasswordForUpdate = encryptUserName + employee.getPassword();
+            String password = "000000";
+            String encyptPwd = PassTools.encryptStrinrgByMD5(password);
+            String finalPasswordForUpdate = encryptUserName + encyptPwd;
             employee.setPassword(finalPasswordForUpdate.toUpperCase());
 
             employeeService.resetPassword(employee);
