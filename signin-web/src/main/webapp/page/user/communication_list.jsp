@@ -139,8 +139,8 @@
                     <th>中心</th>
                     <th>小组</th>
                     <th>手机</th>
-                    <th>邮箱</th>
                     <th>QQ号</th>
+                    <th>邮箱</th>
                 </tr>
                 </thead>
                 <tbody id="userList">
