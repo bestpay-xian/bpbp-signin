@@ -32,7 +32,8 @@
 <body style="background:url(<%=path%>/resources/images/topbg.gif) repeat-x;">
 
 <div class="topleft">
-    <a href="main.html" target="_parent"><img src="<%=path%>/resources/images/logo.png" title="系统首页"/></a>
+    <%--<a href="main.html" target="_parent"><img src="<%=path%>/resources/images/logo.png" title="系统首页"/></a>--%>
+        <img src="<%=path%>/resources/images/logo.png" title="系统首页"/>
 </div>
 
 <div class="topright">

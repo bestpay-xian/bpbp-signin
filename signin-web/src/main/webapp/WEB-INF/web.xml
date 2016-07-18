@@ -42,7 +42,14 @@
         <filter-name>encodFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+    <filter>
+        <filter-name>ForWardToLoginFilter</filter-name>
+        <filter-class>com.bestpay.bpbp.signin.web.interceptor.ForWardToLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ForWardToLoginFilter</filter-name>
+        <url-pattern>/login.do</url-pattern>
+    </filter-mapping>
     <!--<filter-mapping>-->
         <!--<filter-name>checkLogin</filter-name>-->
         <!--<url-pattern>*.do</url-pattern>-->
