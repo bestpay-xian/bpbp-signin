@@ -25,7 +25,6 @@
         function handlePaginationClick(new_page_index, pagination_container) {
             var username = $("#username").val();
             var phone = $("#phone").val();
-
             $("#allUsers").html("");
             $(".pagin").html("");
             var page = new_page_index + 1;
@@ -33,7 +32,7 @@
                 type: "post",
                 url: "<%=path%>/employee/list.do",
                 dataType: "json",
-                data: {"pageNo": page, "name": username, "phone": phone},
+                data: {"pageNo": page, "name": username, },
                 success: function (msg) {
                     $.each(msg.result.lists, function (index, n) {
 
