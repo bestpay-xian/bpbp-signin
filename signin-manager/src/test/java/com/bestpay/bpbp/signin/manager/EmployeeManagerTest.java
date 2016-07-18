@@ -100,7 +100,7 @@ public class EmployeeManagerTest extends BaseSpringTest {
     public void insertEmployee()throws Exception{
         Employee employee = new Employee();
         employee.setEmail("12312@qq.com");
-        employee.setQq(121212121);
+        employee.setQq("121212121");
         employee.setName("测试");
         employee.setPassword("1231231231");
         employee.setPhone("123131231");

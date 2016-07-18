@@ -63,8 +63,8 @@ public class EmployeeService {
      */
     public boolean checkEmployeeList(Employee employee) throws Exception{
         Map map = new HashMap();
-        int qq = employee.getQq();
-        if(qq !=0){
+        String qq = employee.getQq();
+        if(qq !=null && !"".equals(qq)){
             map.put("qq",employee.getQq());
         }
         String phone = employee.getPhone();

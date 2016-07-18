@@ -35,7 +35,7 @@ public class Employee implements Serializable{
     /**
      * 员工qq
      */
-    private int qq;
+    private String  qq;
     /**
      * 员工email
      */
