@@ -33,7 +33,7 @@
         where 1=1
         and t.fk_employee = emp.pk_employee
         <include refid="query_where"/>
-        ORDER BY t.start_time
+        ORDER BY t.start_time desc
         limit #{pageNo},#{rowNum}
 
     </select>
@@ -42,22 +42,25 @@
        <!-- <if test="employeeName !=null and employeeName !=''">
             and EXISTS (select 1 from t_employee emp where emp.name  like CONCAT('%',#{employeeName},'%')
         </if>-->
-
         <if test="employeeName !=null and employeeName !=''">
             and  emp.name  = #{employeeName}
         </if>
-
-        <if test="startTime !=null and startTime !=''">
-            and  <![CDATA[ t.start_time >= #{startTime} ]]>
-        </if>
-
-        <if test="endTime !=null and endTime !=''">
-            and <![CDATA[ t.end_time >= #{endTime} ]]>
-        </if>
-
         <if test="employeeId !=null and employeeId !='' and isAdminFlag != 2">
             and t.fk_employee = #{employeeId}
         </if>
+        <choose>
+            <when test="startTime !=null and startTime !=''">
+                and  <![CDATA[ t.start_time >= #{startTime} ]]>
+            </when>
+
+            <when test="endTime !=null and endTime !=''">
+                and <![CDATA[ t.end_time >= #{endTime} ]]>
+            </when>
+
+            <otherwise>
+                AND <![CDATA[date_format(start_time, '%Y%m') = date_format(curdate() , '%Y%m')]]>
+            </otherwise>
+        </choose>
 
     </sql>
 
